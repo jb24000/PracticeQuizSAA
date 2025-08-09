@@ -69,7 +69,7 @@
 
 | Welcome Screen | Question Interface | Performance Analysis |
 |:--------------:|:------------------:|:-------------------:|
-| ![Welcome](https://jb24000.github.io/PracticeQuizSAA/WelcomeScreen.png) | ![Question](https://via.placeholder.com/250x500/EE5A24/FFFFFF?text=Question+View) | ![Results](https://via.placeholder.com/250x500/FFC107/FFFFFF?text=Results+Screen) |
+| ![Welcome](https://jb24000.github.io/PracticeQuizSAA/WelcomeScreen.png) | ![Question](https://jb24000.github.io/PracticeQuizSAA/Question.png) | ![Results](https://jb24000.github.io/PracticeQuizSAA/ResultsScreen) |
 
 ### 🎥 **Live Demo**
 

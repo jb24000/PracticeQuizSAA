@@ -2,7 +2,7 @@
   "name": "AWS SAA-C03 Strategic Exam Trainer",
   "short_name": "SAA-C03 Trainer",
   "description": "Master AWS SAA-C03 exam timing and strategy with 500+ realistic scenarios - Turn 72% fails into 85+ passes",
-  "start_url": "/PractiveQuizSAA/",
+  "start_url": "/PractiveQuizSAA/index.html",
   "display": "standalone",
   "background_color": "#ff6b6b",
   "theme_color": "#ff6b6b",

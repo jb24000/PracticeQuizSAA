@@ -8,7 +8,7 @@
 ![License](https://img.shields.io/badge/License-MIT-green?style=for-the-badge)
 ![Version](https://img.shields.io/badge/Version-1.0.0-blue?style=for-the-badge)
 
-### 🚀 **[Launch App](https://jb24000.github.io/PractiveQuizSAA)** | 📱 **[Install PWA](https://jb24000.github.io/PractiveQuizSAA)** | 📚 **[View Demo](https://jb24000.github.io/PractiveQuizSAA)**
+### 🚀 **[Launch App](https://jb24000.github.io/PracticeQuizSAA)** | 📱 **[Install PWA](https://jb24000.github.io/PracticeQuizSAA)** | 📚 **[View Demo](https://jb24000.github.io/PracticeQuizSAA)**
 
 **Transform your exam failure into success through strategic time management and intelligent practice**
 
@@ -69,7 +69,7 @@
 
 | Welcome Screen | Question Interface | Performance Analysis |
 |:--------------:|:------------------:|:-------------------:|
-| ![Welcome](https://via.placeholder.com/250x500/FF6B6B/FFFFFF?text=Welcome+Screen) | ![Question](https://via.placeholder.com/250x500/EE5A24/FFFFFF?text=Question+View) | ![Results](https://via.placeholder.com/250x500/FFC107/FFFFFF?text=Results+Screen) |
+| ![Welcome](https://jb24000.github.io/PracticeQuizSAA/WelcomeScreen.png) | ![Question](https://via.placeholder.com/250x500/EE5A24/FFFFFF?text=Question+View) | ![Results](https://via.placeholder.com/250x500/FFC107/FFFFFF?text=Results+Screen) |
 
 ### 🎥 **Live Demo**
 

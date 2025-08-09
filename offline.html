@@ -1,0 +1,255 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Offline - SAA-C03 Trainer</title>
+    <style>
+        :root {
+            --primary-gradient: linear-gradient(135deg, #ff6b6b 0%, #ee5a24 100%);
+            --glass-bg: rgba(255, 255, 255, 0.1);
+            --glass-border: rgba(255, 255, 255, 0.2);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: var(--primary-gradient);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            padding: 20px;
+        }
+
+        .offline-container {
+            text-align: center;
+            max-width: 500px;
+            background: var(--glass-bg);
+            padding: 60px 40px;
+            border-radius: 30px;
+            backdrop-filter: blur(20px);
+            border: 1px solid var(--glass-border);
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+            animation: slideUp 0.6s ease-out;
+        }
+
+        @keyframes slideUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .offline-icon {
+            font-size: 80px;
+            margin-bottom: 30px;
+            animation: pulse 2s ease-in-out infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); opacity: 0.8; }
+            50% { transform: scale(1.1); opacity: 1; }
+        }
+
+        h1 {
+            font-size: 32px;
+            margin-bottom: 20px;
+            font-weight: 700;
+        }
+
+        p {
+            font-size: 18px;
+            line-height: 1.6;
+            margin-bottom: 30px;
+            opacity: 0.9;
+        }
+
+        .status-info {
+            background: rgba(255, 255, 255, 0.05);
+            padding: 20px;
+            border-radius: 15px;
+            margin-bottom: 30px;
+        }
+
+        .status-info h3 {
+            font-size: 20px;
+            margin-bottom: 15px;
+            color: #ffc107;
+        }
+
+        .cached-content {
+            text-align: left;
+            font-size: 14px;
+            opacity: 0.8;
+        }
+
+        .cached-content li {
+            margin-bottom: 8px;
+            list-style: none;
+            padding-left: 20px;
+            position: relative;
+        }
+
+        .cached-content li:before {
+            content: "✓";
+            position: absolute;
+            left: 0;
+            color: #28a745;
+            font-weight: bold;
+        }
+
+        .retry-button {
+            background: linear-gradient(45deg, #007bff, #0056b3);
+            color: white;
+            border: none;
+            padding: 15px 30px;
+            font-size: 16px;
+            font-weight: 600;
+            border-radius: 12px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(0, 123, 255, 0.3);
+        }
+
+        .retry-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(0, 123, 255, 0.4);
+        }
+
+        .retry-button:active {
+            transform: translateY(0);
+        }
+
+        .connection-status {
+            margin-top: 20px;
+            padding: 10px;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 10px;
+            font-size: 14px;
+        }
+
+        .status-indicator {
+            display: inline-block;
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            margin-right: 8px;
+            animation: blink 2s infinite;
+        }
+
+        .status-indicator.offline {
+            background: #dc3545;
+        }
+
+        .status-indicator.online {
+            background: #28a745;
+        }
+
+        @keyframes blink {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.3; }
+        }
+    </style>
+</head>
+<body>
+    <div class="offline-container">
+        <div class="offline-icon">📡</div>
+        
+        <h1>You're Offline</h1>
+        
+        <p>No internet connection detected. Don't worry! Your progress has been saved locally.</p>
+        
+        <div class="status-info">
+            <h3>💾 Available Offline</h3>
+            <ul class="cached-content">
+                <li>Previously viewed questions</li>
+                <li>Your quiz progress</li>
+                <li>Performance statistics</li>
+                <li>Study mode features</li>
+            </ul>
+        </div>
+        
+        <button class="retry-button" onclick="checkConnection()">
+            🔄 Check Connection
+        </button>
+        
+        <div class="connection-status">
+            <span class="status-indicator offline" id="statusIndicator"></span>
+            <span id="statusText">Currently offline</span>
+        </div>
+    </div>
+
+    <script>
+        // Check connection status
+        function checkConnection() {
+            const button = document.querySelector('.retry-button');
+            button.textContent = '⏳ Checking...';
+            button.disabled = true;
+            
+            // Try to fetch a small resource
+            fetch('/manifest.json', { method: 'HEAD' })
+                .then(() => {
+                    // Connection restored
+                    updateStatus(true);
+                    setTimeout(() => {
+                        window.location.reload();
+                    }, 1500);
+                })
+                .catch(() => {
+                    // Still offline
+                    updateStatus(false);
+                    button.textContent = '🔄 Check Connection';
+                    button.disabled = false;
+                });
+        }
+
+        function updateStatus(isOnline) {
+            const indicator = document.getElementById('statusIndicator');
+            const statusText = document.getElementById('statusText');
+            
+            if (isOnline) {
+                indicator.className = 'status-indicator online';
+                statusText.textContent = 'Connection restored! Reloading...';
+            } else {
+                indicator.className = 'status-indicator offline';
+                statusText.textContent = 'Still offline - check your connection';
+            }
+        }
+
+        // Auto-check connection every 5 seconds
+        setInterval(() => {
+            fetch('/manifest.json', { method: 'HEAD' })
+                .then(() => {
+                    updateStatus(true);
+                    window.location.reload();
+                })
+                .catch(() => {
+                    // Still offline, do nothing
+                });
+        }, 5000);
+
+        // Listen for online/offline events
+        window.addEventListener('online', () => {
+            updateStatus(true);
+            setTimeout(() => {
+                window.location.reload();
+            }, 1000);
+        });
+
+        window.addEventListener('offline', () => {
+            updateStatus(false);
+        });
+    </script>
+</body>
+</html>

@@ -2,7 +2,7 @@
   "name": "AWS SAA-C03 Strategic Exam Trainer",
   "short_name": "SAA-C03 Trainer",
   "description": "Master AWS SAA-C03 exam timing and strategy with 500+ realistic scenarios - Turn 72% fails into 85+ passes",
-  "start_url": "/",
+  "start_url": "/PractiveQuizSAA/",
   "display": "standalone",
   "background_color": "#ff6b6b",
   "theme_color": "#ff6b6b",
@@ -11,7 +11,7 @@
   "lang": "en-US",
   "dir": "ltr",
   "prefer_related_applications": false,
-  "scope": "/",
+  "scope": "/PractiveQuizSAA/",
   "id": "aws-saa-c03-trainer-v1",
   
   "icons": [
@@ -44,7 +44,7 @@
       "name": "Full Exam Mode",
       "short_name": "Exam",
       "description": "Start 130-minute full exam simulation",
-      "url": "/?mode=exam",
+      "url": "/PractiveQuizSAA/?mode=exam",
       "icons": [
         {
           "src": "data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iOTYiIGhlaWdodD0iOTYiIGZpbGw9Im5vbmUiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+PHJlY3Qgd2lkdGg9Ijk2IiBoZWlnaHQ9Ijk2IiByeD0iMTYiIGZpbGw9IiNmZjZiNmIiLz48dGV4dCB4PSI1MCUiIHk9IjUwJSIgZG9taW5hbnQtYmFzZWxpbmU9Im1pZGRsZSIgdGV4dC1hbmNob3I9Im1pZGRsZSIgZmlsbD0id2hpdGUiIGZvbnQtc2l6ZT0iNDgiPuKPsDwvdGV4dD48L3N2Zz4=",
@@ -56,7 +56,7 @@
       "name": "Speed Training",
       "short_name": "Speed",
       "description": "90-second rapid fire questions",
-      "url": "/?mode=speed",
+      "url": "/PractiveQuizSAA/?mode=speed",
       "icons": [
         {
           "src": "data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iOTYiIGhlaWdodD0iOTYiIGZpbGw9Im5vbmUiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+PHJlY3Qgd2lkdGg9Ijk2IiBoZWlnaHQ9Ijk2IiByeD0iMTYiIGZpbGw9IiNlZTVhMjQiLz48dGV4dCB4PSI1MCUiIHk9IjUwJSIgZG9taW5hbnQtYmFzZWxpbmU9Im1pZGRsZSIgdGV4dC1hbmNob3I9Im1pZGRsZSIgZmlsbD0id2hpdGUiIGZvbnQtc2l6ZT0iNDgiPuKaoTwvdGV4dD48L3N2Zz4=",
@@ -68,7 +68,7 @@
       "name": "Triage Practice",
       "short_name": "Triage",
       "description": "Learn quick decision making",
-      "url": "/?mode=triage",
+      "url": "/PractiveQuizSAA/?mode=triage",
       "icons": [
         {
           "src": "data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iOTYiIGhlaWdodD0iOTYiIGZpbGw9Im5vbmUiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+PHJlY3Qgd2lkdGg9Ijk2IiBoZWlnaHQ9Ijk2IiByeD0iMTYiIGZpbGw9IiNmZmM0MDciLz48dGV4dCB4PSI1MCUiIHk9IjUwJSIgZG9taW5hbnQtYmFzZWxpbmU9Im1pZGRsZSIgdGV4dC1hbmNob3I9Im1pZGRsZSIgZmlsbD0iIzAwMCIgZm9udC1zaXplPSI0OCI+4pqhPC90ZXh0Pjwvc3ZnPg==",
@@ -96,8 +96,9 @@
   ],
   
   "share_target": {
-    "action": "/share",
-    "method": "GET",
+    "action": "/PractiveQuizSAA/share",
+    "method": "POST",
+    "enctype": "multipart/form-data",
     "params": {
       "title": "title",
       "text": "text",

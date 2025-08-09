@@ -73,7 +73,7 @@
 
 ### 🎥 **Live Demo**
 
-**👉 [Try it now - No signup required!](https://jb24000.github.io/PractiveQuizSAA)**
+**👉 [Try it now - No signup required!](https://jb24000.github.io/PracticeQuizSAA)**
 
 </div>
 
@@ -125,7 +125,7 @@ http://localhost:8000
 <td width="50%">
 
 **Chrome / Edge**
-1. Visit the [app](https://jb24000.github.io/PractiveQuizSAA)
+1. Visit the [app](https://jb24000.github.io/PracticeQuizSAA)
 2. Click install icon in address bar ⊕
 3. Click "Install"
 
@@ -133,7 +133,7 @@ http://localhost:8000
 <td width="50%">
 
 **Firefox**
-1. Visit the [app](https://jb24000.github.io/PractiveQuizSAA)
+1. Visit the [app](https://jb24000.github.io/PracticeQuizSAA)
 2. Currently manual bookmark only
 3. PWA support coming soon
 
@@ -412,7 +412,7 @@ FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.
 
 ### 🌟 **Star this repo if it helps you pass!**
 
-**[⭐ Star](https://github.com/jb24000/PractiveQuizSAA)** | **[🐛 Report Bug](https://github.com/jb24000/PractiveQuizSAA/issues)** | **[💡 Request Feature](https://github.com/jb24000/PractiveQuizSAA/issues)**
+**[⭐ Star](https://github.com/jb24000/PracticeQuizSAA)** | **[🐛 Report Bug](https://github.com/jb24000/PracticeQuizSAA/issues)** | **[💡 Request Feature](https://github.com/jb24000/PracticeQuizSAA/issues)**
 
 ---
 

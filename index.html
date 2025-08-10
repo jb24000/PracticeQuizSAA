@@ -1147,15 +1147,39 @@
                 this.showQuestion();
             }
 
-            getModeConfig(mode) {
-                const configs = {
-                    triage: { questionCount: 20, timeLimit: 30, showTimer: true, autoAdvance: true },
-                    speed: { questionCount: 30, timeLimit: 90, showTimer: true, autoAdvance: true },
-                    exam: { questionCount: 65, timeLimit: 130 * 60, showTimer: true, autoAdvance: false },
-                    strategic: { questionCount: 40, timeLimit: null, showTimer: true, autoAdvance: false }
-                };
-                return configs[mode];
-            }
+           getModeConfig(mode) {
+    const configs = {
+        triage: { 
+            questionCount: 20, 
+            globalTimeLimit: null,     // No global time limit
+            questionTimeLimit: 30,     // 30 seconds per question
+            showTimer: true, 
+            autoAdvance: true 
+        },
+        speed: { 
+            questionCount: 30, 
+            globalTimeLimit: null,
+            questionTimeLimit: 90,     // 90 seconds per question
+            showTimer: true, 
+            autoAdvance: true 
+        },
+        exam: { 
+            questionCount: 65, 
+            globalTimeLimit: 130 * 60, // 130 minutes total
+            questionTimeLimit: 120,     // 2 minutes recommended
+            showTimer: true, 
+            autoAdvance: false 
+        },
+        strategic: { 
+            questionCount: 40, 
+            globalTimeLimit: null,
+            questionTimeLimit: 180,     // 3 minutes per question
+            showTimer: true, 
+            autoAdvance: false 
+        }
+    };
+    return configs[mode];
+}
 
             showQuestion() {
                 if (this.currentQuestionIndex >= this.selectedQuestions.length) {
@@ -1182,7 +1206,7 @@
                 
                 // Start question timer
                 if (config.timeLimit && this.currentMode !== 'exam') {
-                    this.startQuestionTimer(config.timeLimit, config.autoAdvance);
+                    this.startQuestionTimer(config.questionTimeLimit, config.autoAdvance);
                 } else if (this.currentMode === 'exam') {
                     this.startQuestionTimer(120, false); // 2 minutes recommended per question
                 }
@@ -1388,34 +1412,34 @@
                 }, 1000);
             }
 
-            startQuestionTimer(duration, autoAdvance = false) {
-                let timeLeft = duration;
-                const questionTimerElement = document.getElementById('questionTimer');
-                const paceStatus = document.getElementById('paceStatus');
-                
-                if (this.questionTimer) {
-                    clearInterval(this.questionTimer);
-                }
-                
-                this.questionTimer = setInterval(() => {
-                    const minutes = Math.floor(timeLeft / 60);
-                    const seconds = timeLeft % 60;
-                    questionTimerElement.textContent = `${minutes}:${seconds.toString().padStart(2, '0')}`;
-                    
-                    // Update pace and timer appearance
-                    this.updatePaceIndicator(timeLeft, duration);
-                    
-                    if (timeLeft <= 0) {
-                        clearInterval(this.questionTimer);
-                        if (autoAdvance) {
-                            this.nextQuestion();
-                        }
-                    }
-                    
-                    timeLeft--;
-                }, 1000);
+       startQuestionTimer(duration, autoAdvance = false) {
+    // CRITICAL FIX: Clear existing timer first
+    if (this.questionTimer) {
+        clearInterval(this.questionTimer);
+        this.questionTimer = null;
+    }
+    
+    let timeLeft = duration;
+    const questionTimerElement = document.getElementById('questionTimer');
+    
+    this.questionTimer = setInterval(() => {
+        const minutes = Math.floor(timeLeft / 60);
+        const seconds = timeLeft % 60;
+        questionTimerElement.textContent = `${minutes}:${seconds.toString().padStart(2, '0')}`;
+        
+        this.updatePaceIndicator(timeLeft, duration);
+        
+        if (timeLeft <= 0) {
+            clearInterval(this.questionTimer);
+            this.questionTimer = null;
+            if (autoAdvance) {
+                this.nextQuestion();
             }
-
+        }
+        
+        timeLeft--;
+    }, 1000);
+}
             updatePaceIndicator(timeLeft, duration) {
                 const questionTimerElement = document.getElementById('questionTimer');
                 const paceStatus = document.getElementById('paceStatus');

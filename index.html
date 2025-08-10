@@ -1204,12 +1204,10 @@
                 // Render question
                 this.renderQuestion(question);
                 
-                // Start question timer
-                if (config.timeLimit && this.currentMode !== 'exam') {
-                    this.startQuestionTimer(config.questionTimeLimit, config.autoAdvance);
-                } else if (this.currentMode === 'exam') {
-                    this.startQuestionTimer(120, false); // 2 minutes recommended per question
-                }
+                // Start question timer  
+                if (config.questionTimeLimit) {  // ✅ Use questionTimeLimit that actually exists
+                this.startQuestionTimer(config.questionTimeLimit, config.autoAdvance);
+            }
 
                 // Track question as seen
                 this.recentQuestions.add(question.id);

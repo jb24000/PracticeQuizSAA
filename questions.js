@@ -8433,19 +8433,6 @@ const questionBank = {
             
  };
 
-// Append the additional questions to your existing questionBank
-// Add to security array
-questionBank.security.push(...additionalSecurityQuestions);
-
-// Add to resilience array  
-questionBank.resilience.push(...additionalResilienceQuestions);
-
-// Add to performance array
-questionBank.performance.push(...additionalPerformanceQuestions);
-
-// Add to cost array
-questionBank.cost.push(...additionalCostQuestions);
-
 // Update the statistics
 const totalQuestions = 
     questionBank.security.length + 

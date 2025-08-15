@@ -8460,9 +8460,7 @@ console.log(`   • Resilience: ${questionBank.resilience.length} questions`);
 console.log(`   • Performance: ${questionBank.performance.length} questions`);
 console.log(`   • Cost: ${questionBank.cost.length} questions`);
 console.log(`📈 Total: ${totalQuestions} questions`);
-        
-    ]
-};
+
 
 const questionBank = { security, resilience, performance, cost };
 // Make questionBank available globally

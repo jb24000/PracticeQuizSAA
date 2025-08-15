@@ -2410,7 +2410,7 @@ const questionBank = {
             examStrategy: "Multiple layers for supply chain security. Code signing for integrity. Automated scanning for vulnerabilities. End-to-end verification."
         }
     }
-];
+],
 
     // Domain 2: Design Resilient Architectures (130 questions - 26%)
     resilience: [

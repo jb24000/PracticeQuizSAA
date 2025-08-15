@@ -6017,7 +6017,7 @@ const questionBank = {
             examStrategy: "Static generation for news sites. CDN for traffic absorption. Separate static content from dynamic updates."
         }
     }
-];
+],
         
     // Domain 3: Design High-Performing Architectures (120 questions - 24%)
     performance: [

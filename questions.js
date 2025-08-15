@@ -3011,7 +3011,7 @@ const questionBank = {
             examStrategy: "AWS Verified Access for zero-trust. Verify device and user for every request. No implicit trust."
         }
     }
-];
+],
 
     // Domain 2: Design Resilient Architectures (130 questions - 26%)
     resilience: [

@@ -9025,7 +9025,7 @@ const questionBank = {
             examStrategy: "Amazon Location for routing and optimization. Managed services for complex algorithms. Parallel processing for scale."
         }
     }
-];
+],
 
     // Domain 4: Design Cost-Optimized Architectures (100 questions - 20%)
     cost: [

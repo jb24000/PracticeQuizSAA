@@ -3615,7 +3615,7 @@ const questionBank = {
             examStrategy: "IoT Core for IoT device management. Rules engine for reliable routing. S3 for durable storage. Purpose-built services."
         }
     },
-        
+];   
   
     // Domain 3: Design High-Performing Architectures (120 questions - 24%)
     performance: [

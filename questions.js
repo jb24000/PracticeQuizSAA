@@ -2409,8 +2409,609 @@ const questionBank = {
             },
             examStrategy: "Multiple layers for supply chain security. Code signing for integrity. Automated scanning for vulnerabilities. End-to-end verification."
         }
+    },
+
+    {
+        id: 'sec_101',
+        domain: "Domain 1: Design Secure Architectures",
+        difficulty: "medium",
+        timeRecommendation: 120,
+        scenario: "A fintech company needs to implement strong customer authentication for their mobile banking app while maintaining user convenience.",
+        question: "Which authentication solution provides the BEST balance of security and user experience?",
+        options: [
+            "Amazon Cognito with MFA using SMS and biometric authentication on device",
+            "IAM users with access keys embedded in the app",
+            "Simple username/password with rate limiting",
+            "Certificate-based authentication for each user"
+        ],
+        correct: 0,
+        explanation: {
+            correct: "Cognito provides managed authentication with MFA options, while biometric authentication adds security without sacrificing user experience.",
+            whyWrong: {
+                1: "Embedding IAM access keys in mobile apps is a severe security risk",
+                2: "Username/password alone insufficient for banking security",
+                3: "Certificate management on mobile devices is complex for users"
+            },
+            examStrategy: "Cognito for mobile/web authentication. MFA for sensitive applications. Never embed credentials in client apps."
+        }
+    },
+    {
+        id: 'sec_102',
+        domain: "Domain 1: Design Secure Architectures",
+        difficulty: "hard",
+        timeRecommendation: 150,
+        scenario: "A healthcare provider must ensure that patient data is encrypted in a way that even AWS administrators cannot access it, while maintaining HIPAA compliance.",
+        question: "Which encryption architecture provides complete control over patient data encryption?",
+        options: [
+            "Client-side encryption with customer-managed keys stored in CloudHSM",
+            "S3 server-side encryption with SSE-S3",
+            "RDS encryption with AWS managed keys",
+            "EBS encryption with default KMS keys"
+        ],
+        correct: 0,
+        explanation: {
+            correct: "Client-side encryption with CloudHSM ensures data is encrypted before reaching AWS, with keys under complete customer control.",
+            whyWrong: {
+                1: "SSE-S3 uses AWS-managed keys that AWS can technically access",
+                2: "RDS encryption still allows AWS theoretical access to data",
+                3: "Default KMS keys are AWS-managed, not customer-controlled"
+            },
+            examStrategy: "Client-side encryption for zero-trust security. CloudHSM for complete key control. Healthcare requires maximum data protection."
+        }
+    },
+    {
+        id: 'sec_103',
+        domain: "Domain 1: Design Secure Architectures",
+        difficulty: "medium",
+        timeRecommendation: 120,
+        scenario: "A company discovered that an ex-employee's access wasn't revoked and they accessed systems 30 days after termination. They need to prevent this in the future.",
+        question: "Which solution provides automated access revocation for terminated employees?",
+        options: [
+            "AWS SSO integrated with HR system for automatic de-provisioning",
+            "Manual IAM user deletion process",
+            "Quarterly access reviews",
+            "Password rotation every 30 days"
+        ],
+        correct: 0,
+        explanation: {
+            correct: "AWS SSO integration with HR systems automatically revokes access when employee status changes in HR, preventing orphaned accounts.",
+            whyWrong: {
+                1: "Manual processes are prone to human error and delays",
+                2: "Quarterly reviews leave long windows of unauthorized access",
+                3: "Password rotation doesn't help if account isn't disabled"
+            },
+            examStrategy: "Automate identity lifecycle management. SSO integration with HR systems. Immediate revocation on termination."
+        }
+    },
+    {
+        id: 'sec_104',
+        domain: "Domain 1: Design Secure Architectures",
+        difficulty: "easy",
+        timeRecommendation: 90,
+        scenario: "A startup wants to ensure their API keys are not exposed in their public GitHub repositories.",
+        question: "Which AWS service helps manage API keys securely?",
+        options: [
+            "AWS Secrets Manager with automatic rotation",
+            "Store keys in public S3 bucket",
+            "Hardcode keys in environment variables in code",
+            "Email keys to developers"
+        ],
+        correct: 0,
+        explanation: {
+            correct: "Secrets Manager provides secure storage and automatic rotation of API keys, preventing exposure in code repositories.",
+            whyWrong: {
+                1: "Public S3 buckets expose keys to internet",
+                2: "Hardcoding in code risks repository exposure",
+                3: "Email is insecure and creates key sprawl"
+            },
+            examStrategy: "Never commit secrets to code repositories. Use Secrets Manager for API keys. Enable automatic rotation."
+        }
+    },
+    {
+        id: 'sec_105',
+        domain: "Domain 1: Design Secure Architectures",
+        difficulty: "medium",
+        timeRecommendation: 120,
+        scenario: "A company needs to implement network isolation between development, staging, and production environments while allowing controlled access when needed.",
+        question: "Which network architecture provides the BEST environment isolation?",
+        options: [
+            "Separate VPCs with Transit Gateway and route tables controlling traffic",
+            "Single VPC with different security groups",
+            "Different subnets in same VPC",
+            "Different regions for each environment"
+        ],
+        correct: 0,
+        explanation: {
+            correct: "Separate VPCs provide true network isolation, Transit Gateway enables controlled connectivity with route table governance.",
+            whyWrong: {
+                1: "Security groups in single VPC don't provide true isolation",
+                2: "Subnets in same VPC share the network space",
+                3: "Different regions add unnecessary complexity and latency"
+            },
+            examStrategy: "Separate VPCs for environment isolation. Transit Gateway for controlled connectivity. Route tables for traffic governance."
+        }
+    },
+    {
+        id: 'sec_106',
+        domain: "Domain 1: Design Secure Architectures",
+        difficulty: "hard",
+        timeRecommendation: 150,
+        scenario: "A defense contractor needs to implement a system where sensitive data can be shared with partners but automatically expires and cannot be forwarded.",
+        question: "Which solution provides secure, time-limited, non-forwardable data sharing?",
+        options: [
+            "S3 presigned URLs with CloudFront signed cookies and IP restrictions",
+            "Email with password-protected attachments",
+            "Shared IAM credentials with time limits",
+            "Public S3 bucket with lifecycle policies"
+        ],
+        correct: 0,
+        explanation: {
+            correct: "Presigned URLs expire automatically, CloudFront signed cookies add session control, IP restrictions prevent forwarding.",
+            whyWrong: {
+                1: "Email attachments can be forwarded indefinitely",
+                2: "Shared IAM credentials violate security best practices",
+                3: "Public buckets expose data to everyone"
+            },
+            examStrategy: "Presigned URLs for temporary access. CloudFront signed cookies for session control. Layer security controls."
+        }
+    },
+    {
+        id: 'sec_107',
+        domain: "Domain 1: Design Secure Architectures",
+        difficulty: "medium",
+        timeRecommendation: 120,
+        scenario: "A company needs to detect and respond to security incidents in real-time across their AWS infrastructure.",
+        question: "Which combination provides comprehensive security incident detection and response?",
+        options: [
+            "GuardDuty + Security Hub + EventBridge + Lambda for automated response",
+            "CloudTrail alone with manual review",
+            "Third-party SIEM only",
+            "CloudWatch Logs with alarms"
+        ],
+        correct: 0,
+        explanation: {
+            correct: "GuardDuty detects threats, Security Hub centralizes findings, EventBridge triggers automated Lambda responses for immediate action.",
+            whyWrong: {
+                1: "Manual review doesn't provide real-time response",
+                2: "Third-party SIEM alone misses AWS-native detection",
+                3: "CloudWatch Logs requires custom threat detection logic"
+            },
+            examStrategy: "Layer security services for defense in depth. Automate incident response. Use native AWS security services."
+        }
+    },
+    {
+        id: 'sec_108',
+        domain: "Domain 1: Design Secure Architectures",
+        difficulty: "easy",
+        timeRecommendation: 90,
+        scenario: "A company wants to ensure all data stored in S3 is encrypted without modifying existing applications.",
+        question: "How can encryption be enforced for all S3 data transparently?",
+        options: [
+            "Enable default encryption on S3 buckets",
+            "Modify all applications to encrypt before upload",
+            "Use client-side encryption libraries",
+            "Manually encrypt files before upload"
+        ],
+        correct: 0,
+        explanation: {
+            correct: "S3 default encryption automatically encrypts all objects on upload without requiring application changes.",
+            whyWrong: {
+                1: "Modifying applications requires code changes",
+                2: "Client-side encryption requires application updates",
+                3: "Manual encryption is error-prone and not scalable"
+            },
+            examStrategy: "S3 default encryption for transparent encryption. No application changes required. Enable on all buckets."
+        }
+    },
+    {
+        id: 'sec_109',
+        domain: "Domain 1: Design Secure Architectures",
+        difficulty: "medium",
+        timeRecommendation: 120,
+        scenario: "A social media platform needs to implement content moderation to detect and remove inappropriate images automatically.",
+        question: "Which AWS service provides automated content moderation capabilities?",
+        options: [
+            "Amazon Rekognition with content moderation APIs",
+            "Manual review of all images",
+            "S3 bucket policies",
+            "CloudFront with WAF rules"
+        ],
+        correct: 0,
+        explanation: {
+            correct: "Rekognition's content moderation APIs automatically detect inappropriate content in images with confidence scores.",
+            whyWrong: {
+                1: "Manual review doesn't scale for social media volumes",
+                2: "Bucket policies control access, not content",
+                3: "WAF protects web applications, not image content"
+            },
+            examStrategy: "Rekognition for image/video analysis. Automated moderation for scale. AI/ML services for content safety."
+        }
+    },
+    {
+        id: 'sec_110',
+        domain: "Domain 1: Design Secure Architectures",
+        difficulty: "hard",
+        timeRecommendation: 150,
+        scenario: "A cryptocurrency exchange needs to implement cold storage for customer funds with multi-signature requirements for withdrawals.",
+        question: "Which architecture provides secure cold storage with multi-signature controls?",
+        options: [
+            "CloudHSM cluster with quorum authentication and offline key ceremony",
+            "S3 with MFA delete enabled",
+            "RDS with encrypted backups",
+            "DynamoDB with encryption at rest"
+        ],
+        correct: 0,
+        explanation: {
+            correct: "CloudHSM cluster provides hardware security with quorum authentication enabling true multi-signature control for crypto assets.",
+            whyWrong: {
+                1: "MFA delete is single factor, not multi-signature",
+                2: "RDS not designed for cryptographic key storage",
+                3: "DynamoDB encryption doesn't provide multi-signature"
+            },
+            examStrategy: "CloudHSM for cryptographic operations. Quorum authentication for multi-party control. Hardware security for high-value assets."
+        }
+    },
+    {
+        id: 'sec_111',
+        domain: "Domain 1: Design Secure Architectures",
+        difficulty: "medium",
+        timeRecommendation: 120,
+        scenario: "A company needs to implement passwordless authentication for better security and user experience.",
+        question: "Which solution provides secure passwordless authentication?",
+        options: [
+            "Amazon Cognito with FIDO2/WebAuthn support",
+            "IAM users with long-lived access keys",
+            "Shared passwords in team vault",
+            "Security questions only"
+        ],
+        correct: 0,
+        explanation: {
+            correct: "Cognito with FIDO2/WebAuthn enables passwordless authentication using biometrics or hardware keys, eliminating password vulnerabilities.",
+            whyWrong: {
+                1: "Access keys are not for end-user authentication",
+                2: "Shared passwords violate security principles",
+                3: "Security questions are weaker than passwords"
+            },
+            examStrategy: "FIDO2/WebAuthn for passwordless. Cognito for modern authentication. Eliminate passwords for better security."
+        }
+    },
+    {
+        id: 'sec_112',
+        domain: "Domain 1: Design Secure Architectures",
+        difficulty: "easy",
+        timeRecommendation: 90,
+        scenario: "A company wants to monitor all API calls made in their AWS account for security auditing.",
+        question: "Which service provides comprehensive API call logging?",
+        options: [
+            "AWS CloudTrail",
+            "VPC Flow Logs",
+            "CloudWatch Metrics",
+            "AWS Config"
+        ],
+        correct: 0,
+        explanation: {
+            correct: "CloudTrail logs all API calls made in your AWS account, providing a complete audit trail for security analysis.",
+            whyWrong: {
+                1: "Flow Logs capture network traffic, not API calls",
+                2: "CloudWatch Metrics show performance data, not API calls",
+                3: "Config tracks resource configurations, not API calls"
+            },
+            examStrategy: "CloudTrail for API auditing. Enable in all regions. Store logs securely with integrity validation."
+        }
+    },
+    {
+        id: 'sec_113',
+        domain: "Domain 1: Design Secure Architectures",
+        difficulty: "medium",
+        timeRecommendation: 120,
+        scenario: "A company needs to ensure their Lambda functions can only access specific S3 buckets and no other AWS resources.",
+        question: "How should Lambda permissions be configured for least privilege?",
+        options: [
+            "Create a specific IAM role with only required S3 bucket permissions",
+            "Use Lambda's default execution role",
+            "Grant AdministratorAccess to Lambda",
+            "Use the same role for all Lambda functions"
+        ],
+        correct: 0,
+        explanation: {
+            correct: "Creating specific IAM roles with minimal required permissions follows least privilege principle for Lambda security.",
+            whyWrong: {
+                1: "Default role may have unnecessary permissions",
+                2: "AdministratorAccess violates least privilege",
+                3: "Shared roles prevent granular permission control"
+            },
+            examStrategy: "Least privilege for Lambda roles. One role per function/use case. Only grant required permissions."
+        }
+    },
+    {
+        id: 'sec_114',
+        domain: "Domain 1: Design Secure Architectures",
+        difficulty: "hard",
+        timeRecommendation: 150,
+        scenario: "A government agency needs to implement quantum-safe VPN connections for long-term security of classified communications.",
+        question: "Which VPN solution provides quantum-resistant encryption?",
+        options: [
+            "AWS Site-to-Site VPN with IKEv2 and post-quantum key exchange",
+            "Classic VPN with pre-shared keys",
+            "OpenVPN on EC2 instances",
+            "Direct internet connection with TLS"
+        ],
+        correct: 0,
+        explanation: {
+            correct: "AWS Site-to-Site VPN supports post-quantum key exchange algorithms providing resistance against future quantum attacks.",
+            whyWrong: {
+                1: "Classic VPN uses traditional cryptography vulnerable to quantum",
+                2: "OpenVPN doesn't have built-in post-quantum support",
+                3: "TLS alone doesn't provide quantum resistance"
+            },
+            examStrategy: "Consider quantum threats for long-term security. AWS VPN supports post-quantum algorithms. Future-proof critical infrastructure."
+        }
+    },
+    {
+        id: 'sec_115',
+        domain: "Domain 1: Design Secure Architectures",
+        difficulty: "medium",
+        timeRecommendation: 120,
+        scenario: "A company needs to prevent SQL injection attacks on their web application backed by RDS.",
+        question: "Which combination provides the BEST protection against SQL injection?",
+        options: [
+            "WAF with SQL injection rules + parameterized queries + input validation",
+            "Firewall rules only",
+            "Database encryption",
+            "Strong passwords"
+        ],
+        correct: 0,
+        explanation: {
+            correct: "WAF provides perimeter defense, parameterized queries prevent injection at code level, input validation adds additional protection.",
+            whyWrong: {
+                1: "Firewall rules don't inspect application-layer attacks",
+                2: "Encryption doesn't prevent SQL injection",
+                3: "Strong passwords don't protect against injection attacks"
+            },
+            examStrategy: "Layer defenses against injection. WAF for perimeter, code practices for application, validation for data."
+        }
+    },
+    {
+        id: 'sec_116',
+        domain: "Domain 1: Design Secure Architectures",
+        difficulty: "easy",
+        timeRecommendation: 90,
+        scenario: "A startup needs to ensure their EC2 instances are automatically patched with security updates.",
+        question: "Which service automates security patching for EC2?",
+        options: [
+            "AWS Systems Manager Patch Manager",
+            "Manual patching via SSH",
+            "AMI updates only",
+            "Security Groups"
+        ],
+        correct: 0,
+        explanation: {
+            correct: "Systems Manager Patch Manager automates the patching process across EC2 fleet with maintenance windows and compliance reporting.",
+            whyWrong: {
+                1: "Manual patching doesn't scale and is error-prone",
+                2: "AMI updates only affect new instances",
+                3: "Security Groups are for network access control"
+            },
+            examStrategy: "Automate patching with Systems Manager. Define maintenance windows. Track compliance automatically."
+        }
+    },
+    {
+        id: 'sec_117',
+        domain: "Domain 1: Design Secure Architectures",
+        difficulty: "medium",
+        timeRecommendation: 120,
+        scenario: "A company needs to share sensitive documents with external auditors for exactly 48 hours with download tracking.",
+        question: "Which solution provides time-limited access with audit trail?",
+        options: [
+            "S3 presigned URLs with CloudTrail logging and 48-hour expiration",
+            "Email with password protection",
+            "FTP server with temporary accounts",
+            "Public S3 bucket with deletion after 48 hours"
+        ],
+        correct: 0,
+        explanation: {
+            correct: "Presigned URLs expire after 48 hours automatically, CloudTrail logs all download attempts providing complete audit trail.",
+            whyWrong: {
+                1: "Email can be forwarded and lacks audit trail",
+                2: "FTP is insecure and complex to manage",
+                3: "Public buckets expose data to everyone"
+            },
+            examStrategy: "Presigned URLs for temporary sharing. CloudTrail for audit. Never use public buckets for sensitive data."
+        }
+    },
+    {
+        id: 'sec_118',
+        domain: "Domain 1: Design Secure Architectures",
+        difficulty: "hard",
+        timeRecommendation: 150,
+        scenario: "A blockchain company needs to generate and store cryptographic keys with proof of non-tampering for regulatory compliance.",
+        question: "Which solution provides tamper-proof key generation and storage?",
+        options: [
+            "CloudHSM with audit logs shipped to immutable storage with CloudTrail",
+            "KMS with standard key storage",
+            "Secrets Manager with versioning",
+            "Parameter Store with encryption"
+        ],
+        correct: 0,
+        explanation: {
+            correct: "CloudHSM provides hardware-based key generation with tamper-proof storage, audit logs prove non-tampering for compliance.",
+            whyWrong: {
+                1: "KMS doesn't provide the same level of tamper evidence",
+                2: "Secrets Manager is for credentials, not cryptographic keys",
+                3: "Parameter Store lacks cryptographic key management features"
+            },
+            examStrategy: "CloudHSM for regulatory compliance requiring hardware security. Immutable audit logs for proof. Know compliance requirements."
+        }
+    },
+    {
+        id: 'sec_119',
+        domain: "Domain 1: Design Secure Architectures",
+        difficulty: "medium",
+        timeRecommendation: 120,
+        scenario: "A company discovered that developers are using personal AWS accounts for testing, creating shadow IT risks.",
+        question: "How can the company provide developers with AWS access while maintaining governance?",
+        options: [
+            "AWS Organizations with separate development accounts and SCPs",
+            "Shared credentials for all developers",
+            "Block all AWS access",
+            "Allow personal accounts with reimbursement"
+        ],
+        correct: 0,
+        explanation: {
+            correct: "Organizations provides governed separate accounts for developers with SCPs enforcing security policies across all accounts.",
+            whyWrong: {
+                1: "Shared credentials violate security best practices",
+                2: "Blocking access hinders productivity",
+                3: "Personal accounts lack governance and visibility"
+            },
+            examStrategy: "AWS Organizations for multi-account governance. SCPs for policy enforcement. Separate accounts with controls."
+        }
+    },
+    {
+        id: 'sec_120',
+        domain: "Domain 1: Design Secure Architectures",
+        difficulty: "easy",
+        timeRecommendation: 90,
+        scenario: "A company wants to prevent accidental public exposure of their S3 buckets.",
+        question: "Which feature provides the strongest protection against public bucket exposure?",
+        options: [
+            "S3 Block Public Access at the account level",
+            "Bucket policies only",
+            "IAM policies",
+            "Bucket ACLs"
+        ],
+        correct: 0,
+        explanation: {
+            correct: "Account-level Block Public Access overrides any bucket-level settings, providing fail-safe protection against public exposure.",
+            whyWrong: {
+                1: "Bucket policies can be misconfigured",
+                2: "IAM policies don't prevent public access via bucket policies",
+                3: "ACLs can accidentally grant public access"
+            },
+            examStrategy: "Enable Block Public Access at account level. Override protection prevents mistakes. Default deny for public access."
+        }
+    },
+    {
+        id: 'sec_121',
+        domain: "Domain 1: Design Secure Architectures",
+        difficulty: "medium",
+        timeRecommendation: 120,
+        scenario: "A healthcare application needs to ensure that patient data is automatically anonymized when accessed by researchers.",
+        question: "Which solution provides automatic data anonymization?",
+        options: [
+            "Lake Formation with data filters and column-level security for PII masking",
+            "Manual data scrubbing",
+            "Separate database copies",
+            "Application-level filtering only"
+        ],
+        correct: 0,
+        explanation: {
+            correct: "Lake Formation automatically applies data filters and masks PII based on user roles, ensuring researchers see only anonymized data.",
+            whyWrong: {
+                1: "Manual scrubbing is error-prone and doesn't scale",
+                2: "Separate copies risk data synchronization issues",
+                3: "Application filtering can be bypassed"
+            },
+            examStrategy: "Lake Formation for data governance. Automatic PII masking. Role-based data access controls."
+        }
+    },
+    {
+        id: 'sec_122',
+        domain: "Domain 1: Design Secure Architectures",
+        difficulty: "hard",
+        timeRecommendation: 150,
+        scenario: "A financial institution needs to implement transaction monitoring that can detect money laundering patterns in real-time.",
+        question: "Which solution provides real-time fraud and AML detection?",
+        options: [
+            "Amazon Fraud Detector with custom models trained on transaction patterns",
+            "Manual review of all transactions",
+            "Simple threshold-based rules",
+            "Batch processing daily"
+        ],
+        correct: 0,
+        explanation: {
+            correct: "Fraud Detector uses ML to identify complex money laundering patterns in real-time, adapting to new fraud techniques.",
+            whyWrong: {
+                1: "Manual review doesn't scale and isn't real-time",
+                2: "Simple rules miss sophisticated patterns",
+                3: "Batch processing misses real-time fraud"
+            },
+            examStrategy: "Amazon Fraud Detector for financial crime detection. ML-based pattern recognition. Real-time processing for fraud prevention."
+        }
+    },
+    {
+        id: 'sec_123',
+        domain: "Domain 1: Design Secure Architectures",
+        difficulty: "medium",
+        timeRecommendation: 120,
+        scenario: "A company needs to ensure that their containerized applications don't have vulnerabilities before deployment to production.",
+        question: "Which solution provides comprehensive container security scanning?",
+        options: [
+            "ECR image scanning with Amazon Inspector continuous scanning",
+            "Manual security reviews",
+            "Antivirus on host machines",
+            "Network firewalls only"
+        ],
+        correct: 0,
+        explanation: {
+            correct: "ECR scanning identifies vulnerabilities in container images, Inspector provides continuous runtime scanning for comprehensive security.",
+            whyWrong: {
+                1: "Manual reviews don't scale and miss vulnerabilities",
+                2: "Host antivirus doesn't scan container layers",
+                3: "Network firewalls don't detect container vulnerabilities"
+            },
+            examStrategy: "ECR scanning for container images. Inspector for runtime security. Shift-left security with scanning."
+        }
+    },
+    {
+        id: 'sec_124',
+        domain: "Domain 1: Design Secure Architectures",
+        difficulty: "easy",
+        timeRecommendation: 90,
+        scenario: "A startup wants to ensure their developers use MFA but make it easy to adopt.",
+        question: "What's the BEST way to enforce MFA for developer access?",
+        options: [
+            "AWS SSO with MFA requirement and multiple MFA device options",
+            "Optional MFA with email reminders",
+            "Hardware tokens only",
+            "No MFA for convenience"
+        ],
+        correct: 0,
+        explanation: {
+            correct: "AWS SSO enforces MFA while supporting multiple device types (phone, hardware tokens, authenticator apps) for developer convenience.",
+            whyWrong: {
+                1: "Optional MFA leaves security gaps",
+                2: "Hardware tokens only is inflexible",
+                3: "No MFA is a critical security risk"
+            },
+            examStrategy: "Enforce MFA for privileged access. AWS SSO for centralized enforcement. Support multiple MFA options."
+        }
+    },
+    {
+        id: 'sec_125',
+        domain: "Domain 1: Design Secure Architectures",
+        difficulty: "medium",
+        timeRecommendation: 120,
+        scenario: "A company needs to implement zero-trust network access for remote employees accessing corporate resources.",
+        question: "Which solution provides zero-trust remote access?",
+        options: [
+            "AWS Verified Access with device trust and user identity verification",
+            "Traditional VPN with shared credentials",
+            "Public IP whitelisting",
+            "Open access with password protection"
+        ],
+        correct: 0,
+        explanation: {
+            correct: "Verified Access implements zero-trust by verifying both device trust and user identity for every access request.",
+            whyWrong: {
+                1: "Traditional VPN assumes trust after connection",
+                2: "IP whitelisting can be spoofed and doesn't verify identity",
+                3: "Password-only protection is insufficient for zero-trust"
+            },
+            examStrategy: "AWS Verified Access for zero-trust. Verify device and user for every request. No implicit trust."
+        }
     }
-],
+];
 
     // Domain 2: Design Resilient Architectures (130 questions - 26%)
     resilience: [
@@ -4814,8 +5415,609 @@ const questionBank = {
             },
             examStrategy: "Layer CDN protections: failover for availability, Shield for origin protection, WAF for security. Comprehensive resilience strategy."
         }
+    },
+
+        {
+        id: 'res_101',
+        domain: "Domain 2: Design Resilient Architectures",
+        difficulty: "medium",
+        timeRecommendation: 120,
+        scenario: "A streaming platform needs to handle sudden celebrity live streams that attract millions of viewers within seconds.",
+        question: "Which architecture provides instant scalability for unpredictable viral streams?",
+        options: [
+            "Amazon IVS with automatic scaling and CloudFront distribution",
+            "EC2 with manual scaling",
+            "Single server with high bandwidth",
+            "Pre-provisioned capacity for maximum load"
+        ],
+        correct: 0,
+        explanation: {
+            correct: "IVS (Interactive Video Service) automatically scales for millions of viewers, CloudFront handles global distribution instantly.",
+            whyWrong: {
+                1: "Manual scaling too slow for viral events",
+                2: "Single server cannot handle millions of viewers",
+                3: "Pre-provisioning for maximum wastes resources"
+            },
+            examStrategy: "IVS for managed live streaming. Automatic scaling for viral content. CloudFront for global reach."
+        }
+    },
+    {
+        id: 'res_102',
+        domain: "Domain 2: Design Resilient Architectures",
+        difficulty: "hard",
+        timeRecommendation: 150,
+        scenario: "A global bank needs their payment system to survive simultaneous failures of 2 entire AWS regions while maintaining ACID compliance.",
+        question: "Which architecture survives multi-region failures with transaction consistency?",
+        options: [
+            "Three-region active setup with consensus protocol and synchronous replication",
+            "Single region with backups",
+            "Two regions with async replication",
+            "On-premises backup only"
+        ],
+        correct: 0,
+        explanation: {
+            correct: "Three regions with consensus (like Raft) maintains quorum with 2 failures, synchronous replication ensures ACID compliance.",
+            whyWrong: {
+                1: "Single region cannot survive regional failures",
+                2: "Two regions with async loses consistency",
+                3: "On-premises backup has high RTO/RPO"
+            },
+            examStrategy: "N+2 redundancy for 2 simultaneous failures. Consensus protocols for consistency. Three regions minimum for quorum."
+        }
+    },
+    {
+        id: 'res_103',
+        domain: "Domain 2: Design Resilient Architectures",
+        difficulty: "medium",
+        timeRecommendation: 120,
+        scenario: "An e-learning platform needs to handle exam submissions even during database maintenance windows.",
+        question: "How can the platform accept submissions during maintenance?",
+        options: [
+            "Queue submissions in SQS, process when database returns",
+            "Reject submissions during maintenance",
+            "Never perform maintenance",
+            "Store in browser cookies"
+        ],
+        correct: 0,
+        explanation: {
+            correct: "SQS durably stores submissions during maintenance, processing resumes automatically when database is available.",
+            whyWrong: {
+                1: "Rejecting submissions impacts user experience",
+                2: "No maintenance risks security and performance",
+                3: "Browser cookies unreliable and can be lost"
+            },
+            examStrategy: "Decouple with queues for resilience. SQS for durable message storage. Maintain service during maintenance."
+        }
+    },
+    {
+        id: 'res_104',
+        domain: "Domain 2: Design Resilient Architectures",
+        difficulty: "easy",
+        timeRecommendation: 90,
+        scenario: "A company needs to ensure their Auto Scaling group maintains exactly 6 healthy instances at all times.",
+        question: "Which configuration ensures exactly 6 healthy instances?",
+        options: [
+            "Min: 6, Desired: 6, Max: 8 with health checks",
+            "Min: 0, Desired: 6, Max: 6",
+            "Min: 6, Desired: 10, Max: 10",
+            "No Auto Scaling, manually manage"
+        ],
+        correct: 0,
+        explanation: {
+            correct: "Min 6 ensures never below, Max 8 allows temporary scaling during replacements, health checks maintain exactly 6 healthy.",
+            whyWrong: {
+                1: "Min 0 allows dropping below 6",
+                2: "Desired 10 maintains more than required 6",
+                3: "Manual management prone to human error"
+            },
+            examStrategy: "Set Min to required capacity. Max slightly higher for replacement headroom. Health checks for automatic recovery."
+        }
+    },
+    {
+        id: 'res_105',
+        domain: "Domain 2: Design Resilient Architectures",
+        difficulty: "medium",
+        timeRecommendation: 120,
+        scenario: "A news aggregator needs to continue operating even when 3 of their 5 data source APIs fail.",
+        question: "Which pattern ensures service continuity with partial failures?",
+        options: [
+            "Circuit breakers per source with graceful degradation",
+            "Fail if any source fails",
+            "Retry all sources indefinitely",
+            "Cache last successful response forever"
+        ],
+        correct: 0,
+        explanation: {
+            correct: "Circuit breakers prevent cascade failures, graceful degradation shows available content when some sources fail.",
+            whyWrong: {
+                1: "Failing completely impacts all users unnecessarily",
+                2: "Infinite retries cause resource exhaustion",
+                3: "Stale cached data becomes outdated"
+            },
+            examStrategy: "Circuit breakers for external dependencies. Graceful degradation over complete failure. Partial service better than no service."
+        }
+    },
+    {
+        id: 'res_106',
+        domain: "Domain 2: Design Resilient Architectures",
+        difficulty: "hard",
+        timeRecommendation: 150,
+        scenario: "A satellite control system needs to maintain operation even with 500ms latency spikes and 10% packet loss.",
+        question: "Which architecture handles high latency and packet loss?",
+        options: [
+            "Message queuing with automatic retries and eventual consistency",
+            "Synchronous REST APIs only",
+            "Direct TCP connections",
+            "Real-time streaming"
+        ],
+        correct: 0,
+        explanation: {
+            correct: "Message queues handle latency spikes and packet loss through buffering and retries, eventual consistency tolerates delays.",
+            whyWrong: {
+                1: "Synchronous APIs fail with high latency",
+                2: "Direct TCP suffers from packet loss",
+                3: "Real-time streaming breaks with latency spikes"
+            },
+            examStrategy: "Async patterns for unreliable networks. Message queuing for resilience. Design for eventual consistency."
+        }
+    },
+    {
+        id: 'res_107',
+        domain: "Domain 2: Design Resilient Architectures",
+        difficulty: "medium",
+        timeRecommendation: 120,
+        scenario: "A healthcare platform needs to ensure patient monitoring continues even if the primary monitoring system fails.",
+        question: "Which architecture provides failover for critical patient monitoring?",
+        options: [
+            "Active-active monitoring with different systems and alert convergence",
+            "Single monitoring system with backups",
+            "Manual monitoring only",
+            "Periodic checks every hour"
+        ],
+        correct: 0,
+        explanation: {
+            correct: "Active-active with different systems ensures monitoring continues if one fails, convergence prevents duplicate alerts.",
+            whyWrong: {
+                1: "Single system is single point of failure",
+                2: "Manual monitoring doesn't scale and has gaps",
+                3: "Hourly checks miss critical events"
+            },
+            examStrategy: "Active-active for critical systems. Different implementations prevent common-mode failures. Healthcare requires redundancy."
+        }
+    },
+    {
+        id: 'res_108',
+        domain: "Domain 2: Design Resilient Architectures",
+        difficulty: "easy",
+        timeRecommendation: 90,
+        scenario: "A company needs to protect their RDS database from accidental deletion by administrators.",
+        question: "Which feature prevents accidental RDS deletion?",
+        options: [
+            "Enable deletion protection on the RDS instance",
+            "Remove all admin access",
+            "Backup frequently",
+            "Use read replicas"
+        ],
+        correct: 0,
+        explanation: {
+            correct: "Deletion protection requires explicitly disabling the protection before deletion, preventing accidental removal.",
+            whyWrong: {
+                1: "Removing admin access impacts operations",
+                2: "Backups help recovery but don't prevent deletion",
+                3: "Read replicas don't prevent master deletion"
+            },
+            examStrategy: "Enable deletion protection for critical resources. Simple configuration prevents costly mistakes."
+        }
+    },
+    {
+        id: 'res_109',
+        domain: "Domain 2: Design Resilient Architectures",
+        difficulty: "medium",
+        timeRecommendation: 120,
+        scenario: "A logistics platform needs to handle GPS tracker updates from 100,000 vehicles even during cellular network outages.",
+        question: "How can the platform handle intermittent connectivity?",
+        options: [
+            "IoT devices with local storage and batch upload when connected",
+            "Require constant connectivity",
+            "Discard data during outages",
+            "Manual data entry"
+        ],
+        correct: 0,
+        explanation: {
+            correct: "Local storage on IoT devices buffers data during outages, batch upload when reconnected ensures no data loss.",
+            whyWrong: {
+                1: "Constant connectivity impossible with cellular",
+                2: "Discarding data loses tracking information",
+                3: "Manual entry not feasible for 100,000 vehicles"
+            },
+            examStrategy: "Edge storage for intermittent connectivity. Batch upload for efficiency. Design for offline-first."
+        }
+    },
+    {
+        id: 'res_110',
+        domain: "Domain 2: Design Resilient Architectures",
+        difficulty: "hard",
+        timeRecommendation: 150,
+        scenario: "A trading platform needs to ensure no trades are lost even during a complete data center power failure.",
+        question: "Which architecture ensures zero trade loss during power failure?",
+        options: [
+            "Multi-region synchronous replication with automatic failover",
+            "UPS backup power only",
+            "Single region with multiple AZs",
+            "Daily backups"
+        ],
+        correct: 0,
+        explanation: {
+            correct: "Multi-region synchronous replication ensures trades are committed in multiple regions before confirmation, surviving complete DC failure.",
+            whyWrong: {
+                1: "UPS has limited duration and can fail",
+                2: "Single region vulnerable to regional power issues",
+                3: "Daily backups lose intraday trades"
+            },
+            examStrategy: "Multi-region for complete DC failure protection. Synchronous replication for zero data loss. Financial systems need highest resilience."
+        }
+    },
+    {
+        id: 'res_111',
+        domain: "Domain 2: Design Resilient Architectures",
+        difficulty: "medium",
+        timeRecommendation: 120,
+        scenario: "A video platform needs to handle encoder failures during live broadcasts without interrupting the stream.",
+        question: "How can live streams continue despite encoder failures?",
+        options: [
+            "Redundant encoders with automatic input switching",
+            "Single high-quality encoder",
+            "Record and upload later",
+            "Pause stream during issues"
+        ],
+        correct: 0,
+        explanation: {
+            correct: "Redundant encoders with automatic switching ensures seamless continuity when primary encoder fails.",
+            whyWrong: {
+                1: "Single encoder is single point of failure",
+                2: "Recording breaks the live experience",
+                3: "Pausing impacts viewer experience"
+            },
+            examStrategy: "Redundant encoders for live streaming. Automatic switching for seamless failover. Never single point of failure for live content."
+        }
+    },
+    {
+        id: 'res_112',
+        domain: "Domain 2: Design Resilient Architectures",
+        difficulty: "easy",
+        timeRecommendation: 90,
+        scenario: "A company wants to ensure their S3 data survives accidental deletion by developers.",
+        question: "Which S3 feature best protects against accidental deletion?",
+        options: [
+            "Enable versioning with MFA delete",
+            "Restrict all access",
+            "Daily backups to another bucket",
+            "Read-only bucket policies"
+        ],
+        correct: 0,
+        explanation: {
+            correct: "Versioning preserves deleted objects, MFA delete requires additional authentication preventing accidental permanent deletion.",
+            whyWrong: {
+                1: "Restricting all access prevents normal operations",
+                2: "Daily backups can lose intraday changes",
+                3: "Read-only prevents normal write operations"
+            },
+            examStrategy: "Versioning for soft delete protection. MFA delete for permanent deletion protection. Layer deletion safeguards."
+        }
+    },
+    {
+        id: 'res_113',
+        domain: "Domain 2: Design Resilient Architectures",
+        difficulty: "medium",
+        timeRecommendation: 120,
+        scenario: "A gaming platform needs to handle login storms when popular games release new content.",
+        question: "Which architecture handles massive concurrent login spikes?",
+        options: [
+            "API Gateway with throttling and SQS queue for processing",
+            "Direct database authentication",
+            "Single authentication server",
+            "Block logins during releases"
+        ],
+        correct: 0,
+        explanation: {
+            correct: "API Gateway throttling prevents overload, SQS queues smooth out processing spikes for sustainable handling.",
+            whyWrong: {
+                1: "Direct database authentication creates bottleneck",
+                2: "Single server cannot handle storms",
+                3: "Blocking logins frustrates players"
+            },
+            examStrategy: "API Gateway for rate limiting. Queue for spike absorption. Decouple authentication from processing."
+        }
+    },
+    {
+        id: 'res_114',
+        domain: "Domain 2: Design Resilient Architectures",
+        difficulty: "hard",
+        timeRecommendation: 150,
+        scenario: "A emergency response system needs to remain operational during natural disasters affecting multiple regions.",
+        question: "Which architecture survives multi-region natural disasters?",
+        options: [
+            "Global distribution across continents with satellite backup communications",
+            "Single region with good infrastructure",
+            "Two nearby regions",
+            "On-premises data center"
+        ],
+        correct: 0,
+        explanation: {
+            correct: "Continental distribution survives regional disasters, satellite communications work when terrestrial networks fail.",
+            whyWrong: {
+                1: "Single region vulnerable to regional disasters",
+                2: "Nearby regions may be affected by same disaster",
+                3: "On-premises vulnerable to local disasters"
+            },
+            examStrategy: "Geographic diversity for disaster resilience. Alternative communication paths. Emergency systems need maximum distribution."
+        }
+    },
+    {
+        id: 'res_115',
+        domain: "Domain 2: Design Resilient Architectures",
+        difficulty: "medium",
+        timeRecommendation: 120,
+        scenario: "A social media platform needs to handle cascading failures when the recommendation service goes down.",
+        question: "How should the platform handle recommendation service failure?",
+        options: [
+            "Show chronological feed as fallback when recommendations fail",
+            "Show error page to all users",
+            "Keep retrying indefinitely",
+            "Shut down entire platform"
+        ],
+        correct: 0,
+        explanation: {
+            correct: "Chronological feed provides degraded but functional service when recommendations fail, maintaining user engagement.",
+            whyWrong: {
+                1: "Error pages drive users away",
+                2: "Infinite retries exhaust resources",
+                3: "Platform shutdown unnecessary for single service failure"
+            },
+            examStrategy: "Fallback strategies for service failures. Degraded service over no service. Maintain core functionality."
+        }
+    },
+    {
+        id: 'res_116',
+        domain: "Domain 2: Design Resilient Architectures",
+        difficulty: "easy",
+        timeRecommendation: 90,
+        scenario: "A company needs to ensure their application logs are not lost when EC2 instances fail.",
+        question: "How should logs be preserved beyond instance lifecycle?",
+        options: [
+            "Stream logs to CloudWatch Logs",
+            "Store logs on instance storage",
+            "Email logs periodically",
+            "Print to console only"
+        ],
+        correct: 0,
+        explanation: {
+            correct: "CloudWatch Logs provides durable centralized storage that survives instance failures.",
+            whyWrong: {
+                1: "Instance storage lost when instance fails",
+                2: "Email is not scalable or searchable",
+                3: "Console output is ephemeral"
+            },
+            examStrategy: "Centralize logs off-instance. CloudWatch Logs for durability. Never rely on instance storage for important data."
+        }
+    },
+    {
+        id: 'res_117',
+        domain: "Domain 2: Design Resilient Architectures",
+        difficulty: "medium",
+        timeRecommendation: 120,
+        scenario: "A payment processor needs to handle partial failures in a multi-step payment workflow.",
+        question: "Which pattern best handles partial payment failures?",
+        options: [
+            "Saga pattern with compensating transactions",
+            "All-or-nothing transactions only",
+            "Ignore failures",
+            "Manual intervention for all failures"
+        ],
+        correct: 0,
+        explanation: {
+            correct: "Saga pattern breaks transactions into steps with compensating actions to rollback partial failures maintaining consistency.",
+            whyWrong: {
+                1: "All-or-nothing doesn't work across distributed systems",
+                2: "Ignoring failures causes inconsistency",
+                3: "Manual intervention doesn't scale"
+            },
+            examStrategy: "Saga pattern for distributed transactions. Compensating transactions for rollback. Handle partial failures gracefully."
+        }
+    },
+    {
+        id: 'res_118',
+        domain: "Domain 2: Design Resilient Architectures",
+        difficulty: "hard",
+        timeRecommendation: 150,
+        scenario: "A global CDN needs to handle origin failures while serving 100TB of content to millions of users.",
+        question: "Which architecture provides origin resilience for massive CDN?",
+        options: [
+            "Multiple origin servers with health checks and automatic failover",
+            "Single powerful origin server",
+            "No origin, serve from edge only",
+            "Manual origin switching"
+        ],
+        correct: 0,
+        explanation: {
+            correct: "Multiple origins with health checks enable automatic failover when origins fail, maintaining content availability.",
+            whyWrong: {
+                1: "Single origin is single point of failure",
+                2: "Edge-only cannot refresh content",
+                3: "Manual switching too slow for user experience"
+            },
+            examStrategy: "Multiple origins for CDN resilience. Automatic health-based failover. Origin redundancy critical for availability."
+        }
+    },
+    {
+        id: 'res_119',
+        domain: "Domain 2: Design Resilient Architectures",
+        difficulty: "medium",
+        timeRecommendation: 120,
+        scenario: "A IoT platform needs to handle 50% of sensors going offline simultaneously due to network issues.",
+        question: "How should the platform handle mass sensor disconnections?",
+        options: [
+            "Queue last known values and mark data as stale",
+            "Shut down platform",
+            "Extrapolate missing data",
+            "Alert for every offline sensor"
+        ],
+        correct: 0,
+        explanation: {
+            correct: "Queuing last values maintains service while marking staleness prevents incorrect decisions on old data.",
+            whyWrong: {
+                1: "Shutdown unnecessary for partial sensor loss",
+                2: "Extrapolation creates false data",
+                3: "Mass alerting causes alert fatigue"
+            },
+            examStrategy: "Handle partial data availability. Mark data staleness. Maintain service with degraded data."
+        }
+    },
+    {
+        id: 'res_120',
+        domain: "Domain 2: Design Resilient Architectures",
+        difficulty: "easy",
+        timeRecommendation: 90,
+        scenario: "A company needs to test their disaster recovery plan without affecting production.",
+        question: "How should DR testing be performed?",
+        options: [
+            "Use isolated DR environment with synthetic transactions",
+            "Test on production during maintenance",
+            "Never test to avoid risk",
+            "Documentation review only"
+        ],
+        correct: 0,
+        explanation: {
+            correct: "Isolated DR environment allows full testing without production impact, synthetic transactions validate functionality.",
+            whyWrong: {
+                1: "Production testing risks actual outages",
+                2: "Untested DR likely fails when needed",
+                3: "Documentation doesn't validate actual recovery"
+            },
+            examStrategy: "Test DR regularly in isolation. Use synthetic transactions. Never test first time during actual disaster."
+        }
+    },
+    {
+        id: 'res_121',
+        domain: "Domain 2: Design Resilient Architectures",
+        difficulty: "medium",
+        timeRecommendation: 120,
+        scenario: "A food delivery platform needs to handle restaurant POS system failures during peak hours.",
+        question: "How can orders continue when restaurant systems fail?",
+        options: [
+            "Fallback to phone orders with manual entry into backup system",
+            "Cancel all orders for affected restaurants",
+            "Queue orders indefinitely",
+            "Redirect to competitors"
+        ],
+        correct: 0,
+        explanation: {
+            correct: "Phone fallback maintains service albeit degraded, backup system ensures orders are captured and processed.",
+            whyWrong: {
+                1: "Canceling orders loses revenue and customers",
+                2: "Indefinite queuing frustrates customers",
+                3: "Redirecting to competitors loses business"
+            },
+            examStrategy: "Human fallback for system failures. Backup systems for continuity. Degraded service over no service."
+        }
+    },
+    {
+        id: 'res_122',
+        domain: "Domain 2: Design Resilient Architectures",
+        difficulty: "hard",
+        timeRecommendation: 150,
+        scenario: "A autonomous vehicle fleet needs to handle loss of central control connectivity while ensuring safety.",
+        question: "Which architecture ensures safe operation without central connectivity?",
+        options: [
+            "Edge computing with autonomous decision-making and safe-mode defaults",
+            "Require constant connectivity for operation",
+            "Immediate stop when disconnected",
+            "Continue last command indefinitely"
+        ],
+        correct: 0,
+        explanation: {
+            correct: "Edge computing enables local decision-making, safe-mode defaults ensure safety when uncertain.",
+            whyWrong: {
+                1: "Constant connectivity unrealistic for mobile systems",
+                2: "Immediate stop could be dangerous",
+                3: "Continuing blindly risks safety"
+            },
+            examStrategy: "Edge computing for autonomous operation. Safe defaults for uncertainty. Design for disconnected operation."
+        }
+    },
+    {
+        id: 'res_123',
+        domain: "Domain 2: Design Resilient Architectures",
+        difficulty: "medium",
+        timeRecommendation: 120,
+        scenario: "A music streaming service needs to handle CDN cache poisoning attacks.",
+        question: "How can the service recover from cache poisoning?",
+        options: [
+            "Cache versioning with instant global purge capability",
+            "Never cache content",
+            "Manual cache review",
+            "Ignore the problem"
+        ],
+        correct: 0,
+        explanation: {
+            correct: "Cache versioning allows instant invalidation of poisoned content, global purge removes bad data immediately.",
+            whyWrong: {
+                1: "No caching severely impacts performance",
+                2: "Manual review too slow for active attacks",
+                3: "Ignoring allows continued serving of bad content"
+            },
+            examStrategy: "Cache versioning for quick invalidation. Global purge capability essential. Plan for cache poisoning."
+        }
+    },
+    {
+        id: 'res_124',
+        domain: "Domain 2: Design Resilient Architectures",
+        difficulty: "easy",
+        timeRecommendation: 90,
+        scenario: "A company needs to ensure their application can handle database connection pool exhaustion.",
+        question: "How should applications handle connection pool exhaustion?",
+        options: [
+            "Circuit breaker with exponential backoff and user-friendly errors",
+            "Crash the application",
+            "Create unlimited connections",
+            "Ignore database errors"
+        ],
+        correct: 0,
+        explanation: {
+            correct: "Circuit breaker prevents cascading failures, exponential backoff allows recovery, user-friendly errors maintain experience.",
+            whyWrong: {
+                1: "Crashing impacts all users unnecessarily",
+                2: "Unlimited connections overwhelm database",
+                3: "Ignoring errors causes data inconsistency"
+            },
+            examStrategy: "Circuit breakers for resource exhaustion. Exponential backoff for recovery. Graceful error handling."
+        }
+    },
+    {
+        id: 'res_125',
+        domain: "Domain 2: Design Resilient Architectures",
+        difficulty: "medium",
+        timeRecommendation: 120,
+        scenario: "A news platform needs to handle sudden traffic spikes when breaking news occurs.",
+        question: "Which architecture best handles unpredictable news traffic spikes?",
+        options: [
+            "Static site generation with CDN and dynamic API for updates",
+            "Fully dynamic site with database queries",
+            "Fixed capacity servers",
+            "Block traffic during spikes"
+        ],
+        correct: 0,
+        explanation: {
+            correct: "Static generation eliminates server load for content, CDN absorbs traffic, API handles only updates reducing load.",
+            whyWrong: {
+                1: "Fully dynamic creates unnecessary load",
+                2: "Fixed capacity cannot handle spikes",
+                3: "Blocking traffic loses ad revenue and readers"
+            },
+            examStrategy: "Static generation for news sites. CDN for traffic absorption. Separate static content from dynamic updates."
+        }
     }
-],
+];
         
     // Domain 3: Design High-Performing Architectures (120 questions - 24%)
     performance: [
@@ -7221,9 +8423,609 @@ const questionBank = {
             },
             examStrategy: "ParallelCluster for HPC workloads. FSx Lustre for HPC storage. EFA for MPI performance. Scale-out for PB processing."
         }
-    }
+    },
 
-   ],
+        {
+        id: 'perf_101',
+        domain: "Domain 3: Design High-Performing Architectures",
+        difficulty: "medium",
+        timeRecommendation: 120,
+        scenario: "A real-time gaming platform needs to synchronize player actions across global regions with maximum 30ms latency.",
+        question: "Which architecture achieves global 30ms synchronization?",
+        options: [
+            "AWS Local Zones in major cities with edge compute",
+            "Single central server",
+            "Regional servers with database sync",
+            "Client-to-client direct connections"
+        ],
+        correct: 0,
+        explanation: {
+            correct: "Local Zones place compute at network edge in cities, providing ultra-low latency required for 30ms global sync.",
+            whyWrong: {
+                1: "Central server cannot achieve 30ms globally",
+                2: "Database sync adds too much latency",
+                3: "Client connections unreliable and insecure"
+            },
+            examStrategy: "Local Zones for ultra-low latency. Edge compute for gaming. Physical proximity matters for latency."
+        }
+    },
+    {
+        id: 'perf_102',
+        domain: "Domain 3: Design High-Performing Architectures",
+        difficulty: "hard",
+        timeRecommendation: 150,
+        scenario: "A financial modeling platform needs to run 10 million Monte Carlo simulations in under 5 minutes for real-time risk assessment.",
+        question: "Which compute solution can complete 10 million simulations in 5 minutes?",
+        options: [
+            "AWS Batch with 1000 Spot instances running parallel simulations",
+            "Single powerful instance",
+            "Lambda functions",
+            "Fargate tasks"
+        ],
+        correct: 0,
+        explanation: {
+            correct: "Batch with 1000 Spot instances provides massive parallelization needed for 10M simulations in 5 minutes.",
+            whyWrong: {
+                1: "Single instance cannot process 33,000 simulations per second",
+                2: "Lambda concurrency and timeout limits problematic",
+                3: "Fargate task limits insufficient for this scale"
+            },
+            examStrategy: "AWS Batch for massive parallel compute. Spot for cost-effective scaling. Parallelize Monte Carlo simulations."
+        }
+    },
+    {
+        id: 'perf_103',
+        domain: "Domain 3: Design High-Performing Architectures",
+        difficulty: "medium",
+        timeRecommendation: 120,
+        scenario: "A video editing platform needs to provide real-time collaborative editing with changes visible within 100ms.",
+        question: "Which architecture enables sub-100ms collaborative updates?",
+        options: [
+            "WebSocket connections with ElastiCache Redis pub/sub",
+            "Polling every second",
+            "Database triggers",
+            "Email notifications"
+        ],
+        correct: 0,
+        explanation: {
+            correct: "WebSockets provide real-time bidirectional communication, Redis pub/sub enables instant message distribution under 100ms.",
+            whyWrong: {
+                1: "1-second polling too slow for real-time",
+                2: "Database triggers add latency",
+                3: "Email far too slow for real-time collaboration"
+            },
+            examStrategy: "WebSockets for real-time communication. Redis pub/sub for instant messaging. Avoid polling for real-time needs."
+        }
+    },
+    {
+        id: 'perf_104',
+        domain: "Domain 3: Design High-Performing Architectures",
+        difficulty: "easy",
+        timeRecommendation: 90,
+        scenario: "A company's website is slow because it loads 100 JavaScript files on each page load.",
+        question: "What's the BEST way to improve JavaScript loading performance?",
+        options: [
+            "Bundle and minify JavaScript files, serve from CloudFront",
+            "Load more files in parallel",
+            "Increase server CPU",
+            "Use larger EC2 instances"
+        ],
+        correct: 0,
+        explanation: {
+            correct: "Bundling reduces HTTP requests from 100 to few, minification reduces size, CloudFront serves from edge.",
+            whyWrong: {
+                1: "Parallel loading still has overhead of 100 requests",
+                2: "CPU doesn't help with network transfer",
+                3: "Instance size doesn't reduce file count"
+            },
+            examStrategy: "Bundle assets to reduce requests. Minify to reduce size. CDN for edge delivery."
+        }
+    },
+    {
+        id: 'perf_105',
+        domain: "Domain 3: Design High-Performing Architectures",
+        difficulty: "medium",
+        timeRecommendation: 120,
+        scenario: "An AI inference service needs to process 100,000 image classifications per second with <50ms latency.",
+        question: "Which deployment provides required inference performance?",
+        options: [
+            "SageMaker multi-model endpoints with GPU instances",
+            "Lambda with CPU only",
+            "EC2 with CPU instances",
+            "Batch processing hourly"
+        ],
+        correct: 0,
+        explanation: {
+            correct: "SageMaker multi-model endpoints on GPUs provide the throughput and low latency needed for 100K inferences/second.",
+            whyWrong: {
+                1: "Lambda CPU too slow for image classification at scale",
+                2: "CPU instances insufficient for this throughput",
+                3: "Batch processing not real-time"
+            },
+            examStrategy: "SageMaker for ML inference at scale. GPUs for image processing. Multi-model endpoints for efficiency."
+        }
+    },
+    {
+        id: 'perf_106',
+        domain: "Domain 3: Design High-Performing Architectures",
+        difficulty: "hard",
+        timeRecommendation: 150,
+        scenario: "A cryptocurrency exchange needs to process 1 million transactions per second with guaranteed ordering.",
+        question: "Which architecture handles 1M TPS with strict ordering?",
+        options: [
+            "Kinesis Data Streams with multiple shards and partition keys for ordering",
+            "SQS standard queue",
+            "Single database with transactions",
+            "S3 with timestamp prefixes"
+        ],
+        correct: 0,
+        explanation: {
+            correct: "Kinesis with multiple shards provides horizontal scaling to 1M TPS, partition keys ensure per-entity ordering.",
+            whyWrong: {
+                1: "SQS standard doesn't guarantee order",
+                2: "Single database cannot handle 1M TPS",
+                3: "S3 not designed for transactional processing"
+            },
+            examStrategy: "Kinesis for high-throughput ordered streams. Partition keys for ordering guarantees. Scale with shards."
+        }
+    },
+    {
+        id: 'perf_107',
+        domain: "Domain 3: Design High-Performing Architectures",
+        difficulty: "medium",
+        timeRecommendation: 120,
+        scenario: "A social media platform needs to generate personalized feeds for 10 million users every morning in 1 hour.",
+        question: "Which architecture can generate 10M feeds in 1 hour?",
+        options: [
+            "EMR cluster with Spark processing user data in parallel",
+            "Single server processing sequentially",
+            "Lambda processing one user at a time",
+            "Manual feed generation"
+        ],
+        correct: 0,
+        explanation: {
+            correct: "EMR with Spark provides distributed processing power to generate 2,700+ feeds per second needed for 10M in 1 hour.",
+            whyWrong: {
+                1: "Sequential processing too slow for 10M users",
+                2: "Lambda concurrency limits problematic at this scale",
+                3: "Manual generation impossible at this scale"
+            },
+            examStrategy: "EMR for large-scale batch processing. Spark for distributed computation. Parallelize for scale."
+        }
+    },
+    {
+        id: 'perf_108',
+        domain: "Domain 3: Design High-Performing Architectures",
+        difficulty: "easy",
+        timeRecommendation: 90,
+        scenario: "Users complain that downloading large files from S3 is slow in Asia, fast in US.",
+        question: "What's the BEST solution for improving download speeds in Asia?",
+        options: [
+            "Enable S3 Transfer Acceleration or use CloudFront",
+            "Move bucket to Asia",
+            "Increase S3 bucket size",
+            "Compress files more"
+        ],
+        correct: 0,
+        explanation: {
+            correct: "Transfer Acceleration or CloudFront uses edge locations in Asia for faster downloads without moving data.",
+            whyWrong: {
+                1: "Moving bucket affects US users",
+                2: "Bucket size doesn't affect transfer speed",
+                3: "Compression helps but doesn't address geographic latency"
+            },
+            examStrategy: "CloudFront or Transfer Acceleration for global performance. Edge locations reduce geographic latency."
+        }
+    },
+    {
+        id: 'perf_109',
+        domain: "Domain 3: Design High-Performing Architectures",
+        difficulty: "medium",
+        timeRecommendation: 120,
+        scenario: "A data pipeline needs to process 1TB of streaming data per hour with transformations.",
+        question: "Which service provides the best performance for stream processing at this scale?",
+        options: [
+            "Kinesis Data Analytics with Apache Flink",
+            "Lambda functions processing individual records",
+            "EC2 with custom scripts",
+            "Batch processing daily"
+        ],
+        correct: 0,
+        explanation: {
+            correct: "Kinesis Analytics with Flink provides managed stream processing capable of handling 1TB/hour with complex transformations.",
+            whyWrong: {
+                1: "Lambda has payload and duration limits for large-scale processing",
+                2: "EC2 scripts require complex management",
+                3: "Daily batch doesn't meet streaming requirement"
+            },
+            examStrategy: "Kinesis Analytics for stream processing. Apache Flink for complex transformations. Managed services for scale."
+        }
+    },
+    {
+        id: 'perf_110',
+        domain: "Domain 3: Design High-Performing Architectures",
+        difficulty: "hard",
+        timeRecommendation: 150,
+        scenario: "A scientific research platform needs 10 petaflops of computing power for climate modeling.",
+        question: "Which HPC configuration provides 10 petaflops?",
+        options: [
+            "ParallelCluster with 100 P4d.24xlarge instances and EFA",
+            "Single most powerful instance",
+            "Lambda functions",
+            "Fargate cluster"
+        ],
+        correct: 0,
+        explanation: {
+            correct: "100 P4d instances provide ~10 petaflops combined, EFA enables efficient MPI communication for HPC workloads.",
+            whyWrong: {
+                1: "No single instance provides petaflops",
+                2: "Lambda not suitable for HPC",
+                3: "Fargate lacks HPC networking"
+            },
+            examStrategy: "ParallelCluster for HPC. P4d for maximum compute. EFA for HPC networking."
+        }
+    },
+    {
+        id: 'perf_111',
+        domain: "Domain 3: Design High-Performing Architectures",
+        difficulty: "medium",
+        timeRecommendation: 120,
+        scenario: "An e-commerce search needs to return results from 1 billion products in under 100ms.",
+        question: "Which search solution provides sub-100ms latency for billion-item catalog?",
+        options: [
+            "OpenSearch with multiple master nodes and NVMe storage",
+            "DynamoDB scan",
+            "RDS full table scan",
+            "S3 Select"
+        ],
+        correct: 0,
+        explanation: {
+            correct: "OpenSearch with NVMe provides the indexing and query performance needed for sub-100ms searches on billion-item catalogs.",
+            whyWrong: {
+                1: "DynamoDB scan extremely slow for 1B items",
+                2: "RDS full scan takes minutes",
+                3: "S3 Select not designed for product search"
+            },
+            examStrategy: "OpenSearch for full-text search at scale. NVMe for storage performance. Purpose-built search over database scans."
+        }
+    },
+    {
+        id: 'perf_112',
+        domain: "Domain 3: Design High-Performing Architectures",
+        difficulty: "easy",
+        timeRecommendation: 90,
+        scenario: "A company's API is slow because it makes 50 database queries per request.",
+        question: "What's the BEST way to reduce API latency?",
+        options: [
+            "Cache query results in ElastiCache",
+            "Make queries in parallel",
+            "Increase database size",
+            "Add more API servers"
+        ],
+        correct: 0,
+        explanation: {
+            correct: "Caching eliminates repeated database queries, providing instant responses from memory.",
+            whyWrong: {
+                1: "Parallel queries still hit database",
+                2: "Database size doesn't reduce query count",
+                3: "More servers don't reduce queries per request"
+            },
+            examStrategy: "Cache before optimizing queries. ElastiCache for database offload. Reduce database hits."
+        }
+    },
+    {
+        id: 'perf_113',
+        domain: "Domain 3: Design High-Performing Architectures",
+        difficulty: "medium",
+        timeRecommendation: 120,
+        scenario: "A live sports platform needs to deliver real-time scores to 50 million users with <1 second delay.",
+        question: "Which architecture delivers real-time updates to 50M users?",
+        options: [
+            "AppSync with GraphQL subscriptions and WebSocket connections",
+            "Polling every 10 seconds",
+            "Email notifications",
+            "SMS updates"
+        ],
+        correct: 0,
+        explanation: {
+            correct: "AppSync handles millions of WebSocket connections for real-time GraphQL subscriptions with sub-second delivery.",
+            whyWrong: {
+                1: "10-second polling too slow for real-time",
+                2: "Email has delivery delays",
+                3: "SMS doesn't scale to 50M instantly"
+            },
+            examStrategy: "AppSync for real-time subscriptions at scale. WebSockets for instant updates. GraphQL for efficient data transfer."
+        }
+    },
+    {
+        id: 'perf_114',
+        domain: "Domain 3: Design High-Performing Architectures",
+        difficulty: "hard",
+        timeRecommendation: 150,
+        scenario: "A metaverse platform needs to render 8K VR content for 100,000 concurrent users.",
+        question: "Which architecture supports 8K VR streaming at scale?",
+        options: [
+            "EC2 G5 instances with NVIDIA GPUs and NICE DCV streaming",
+            "Client-side rendering only",
+            "Pre-rendered video files",
+            "Text-based interface"
+        ],
+        correct: 0,
+        explanation: {
+            correct: "G5 instances provide powerful GPUs for 8K rendering, NICE DCV enables high-quality streaming to many users.",
+            whyWrong: {
+                1: "Client devices lack power for 8K VR",
+                2: "Pre-rendered isn't interactive VR",
+                3: "Text interface isn't VR"
+            },
+            examStrategy: "G5 for GPU rendering. NICE DCV for pixel streaming. Cloud rendering for demanding graphics."
+        }
+    },
+    {
+        id: 'perf_115',
+        domain: "Domain 3: Design High-Performing Architectures",
+        difficulty: "medium",
+        timeRecommendation: 120,
+        scenario: "A news aggregator needs to fetch and process content from 10,000 sources every minute.",
+        question: "Which architecture efficiently processes 10,000 sources per minute?",
+        options: [
+            "Lambda with concurrent executions and SQS for queuing",
+            "Single server fetching sequentially",
+            "Manual processing",
+            "Batch processing daily"
+        ],
+        correct: 0,
+        explanation: {
+            correct: "Lambda concurrent executions can fetch from thousands of sources in parallel, SQS manages the queue efficiently.",
+            whyWrong: {
+                1: "Sequential fetching takes hours",
+                2: "Manual processing impossible at this scale",
+                3: "Daily batch not real-time enough for news"
+            },
+            examStrategy: "Lambda for parallel processing. SQS for work distribution. Concurrent execution for scale."
+        }
+    },
+    {
+        id: 'perf_116',
+        domain: "Domain 3: Design High-Performing Architectures",
+        difficulty: "easy",
+        timeRecommendation: 90,
+        scenario: "A company's database queries are slow due to missing indexes on frequently filtered columns.",
+        question: "What's the QUICKEST performance improvement?",
+        options: [
+            "Add indexes on filtered columns",
+            "Buy a larger database",
+            "Rewrite the entire application",
+            "Add more database replicas"
+        ],
+        correct: 0,
+        explanation: {
+            correct: "Adding indexes on filtered columns provides immediate query performance improvement without other changes.",
+            whyWrong: {
+                1: "Larger database doesn't fix missing indexes",
+                2: "Rewriting application unnecessary and time-consuming",
+                3: "Replicas don't help if queries are slow"
+            },
+            examStrategy: "Indexes first for query optimization. Quick wins before scaling. Identify missing indexes with explain plans."
+        }
+    },
+    {
+        id: 'perf_117',
+        domain: "Domain 3: Design High-Performing Architectures",
+        difficulty: "medium",
+        timeRecommendation: 120,
+        scenario: "A gaming leaderboard needs to rank 100 million players in real-time.",
+        question: "Which solution provides real-time ranking for 100M players?",
+        options: [
+            "ElastiCache Redis with sorted sets partitioned across cluster",
+            "RDS with ORDER BY queries",
+            "DynamoDB with scan and sort",
+            "S3 with file sorting"
+        ],
+        correct: 0,
+        explanation: {
+            correct: "Redis sorted sets are optimized for leaderboards, clustering handles 100M players with millisecond updates.",
+            whyWrong: {
+                1: "ORDER BY on 100M rows extremely slow",
+                2: "DynamoDB scan and sort doesn't scale",
+                3: "S3 file sorting not real-time"
+            },
+            examStrategy: "Redis sorted sets for leaderboards. Partition for scale. Purpose-built data structures."
+        }
+    },
+    {
+        id: 'perf_118',
+        domain: "Domain 3: Design High-Performing Architectures",
+        difficulty: "hard",
+        timeRecommendation: 150,
+        scenario: "A autonomous driving platform needs to process LIDAR data with 1ms latency for collision avoidance.",
+        question: "Which edge solution provides 1ms processing latency?",
+        options: [
+            "AWS Outposts with local GPU compute",
+            "Cloud processing via API",
+            "Batch processing",
+            "Manual review"
+        ],
+        correct: 0,
+        explanation: {
+            correct: "Outposts provides local compute eliminating network latency, GPUs process LIDAR data within 1ms requirement.",
+            whyWrong: {
+                1: "Cloud API adds network latency exceeding 1ms",
+                2: "Batch processing not real-time",
+                3: "Manual review far too slow for collision avoidance"
+            },
+            examStrategy: "Outposts for edge compute. Local processing for ultra-low latency. GPUs for sensor data processing."
+        }
+    },
+    {
+        id: 'perf_119',
+        domain: "Domain 3: Design High-Performing Architectures",
+        difficulty: "medium",
+        timeRecommendation: 120,
+        scenario: "A video platform needs to transcode 10,000 hours of video daily into 5 formats.",
+        question: "Which solution handles 50,000 hours of transcoding daily?",
+        options: [
+            "AWS Elemental MediaConvert with job queues and priorities",
+            "Single EC2 instance with FFmpeg",
+            "Lambda functions",
+            "Manual transcoding"
+        ],
+        correct: 0,
+        explanation: {
+            correct: "MediaConvert is purpose-built for video transcoding at scale with automatic parallel processing and queue management.",
+            whyWrong: {
+                1: "Single instance cannot process 2,000+ hours per hour",
+                2: "Lambda timeout insufficient for video transcoding",
+                3: "Manual transcoding impossible at this scale"
+            },
+            examStrategy: "MediaConvert for video transcoding at scale. Purpose-built services over custom solutions. Parallel processing essential."
+        }
+    },
+    {
+        id: 'perf_120',
+        domain: "Domain 3: Design High-Performing Architectures",
+        difficulty: "easy",
+        timeRecommendation: 90,
+        scenario: "A website's images load slowly because they're all in original 20MB RAW format.",
+        question: "What's the BEST way to improve image loading speed?",
+        options: [
+            "Convert to optimized web formats (WebP/JPEG) and serve via CloudFront",
+            "Get faster internet for users",
+            "Increase server bandwidth",
+            "Tell users to wait"
+        ],
+        correct: 0,
+        explanation: {
+            correct: "Optimized formats reduce size by 95%, CloudFront serves from edge locations for fast delivery.",
+            whyWrong: {
+                1: "User internet doesn't fix large file sizes",
+                2: "Server bandwidth doesn't reduce file size",
+                3: "User experience matters"
+            },
+            examStrategy: "Optimize content before delivery. Use appropriate formats. CDN for distribution."
+        }
+    },
+    {
+        id: 'perf_121',
+        domain: "Domain 3: Design High-Performing Architectures",
+        difficulty: "medium",
+        timeRecommendation: 120,
+        scenario: "A financial platform needs to calculate risk metrics for 1 million portfolios in real-time.",
+        question: "Which architecture provides real-time risk calculation at scale?",
+        options: [
+            "SageMaker endpoints with auto-scaling and batch transform",
+            "Single server calculating sequentially",
+            "Spreadsheet calculations",
+            "Overnight batch processing"
+        ],
+        correct: 0,
+        explanation: {
+            correct: "SageMaker provides scalable ML inference for risk calculations, batch transform efficiently processes million portfolios.",
+            whyWrong: {
+                1: "Sequential processing too slow for real-time",
+                2: "Spreadsheets don't scale to millions",
+                3: "Overnight batch not real-time"
+            },
+            examStrategy: "SageMaker for financial calculations at scale. Batch transform for efficient processing. Auto-scaling for demand."
+        }
+    },
+    {
+        id: 'perf_122',
+        domain: "Domain 3: Design High-Performing Architectures",
+        difficulty: "hard",
+        timeRecommendation: 150,
+        scenario: "A global IoT platform needs to ingest 100 million messages per second from devices worldwide.",
+        question: "Which architecture handles 100M messages per second globally?",
+        options: [
+            "IoT Core with multiple regions and Kinesis Data Streams",
+            "Single API endpoint",
+            "Database direct writes",
+            "File uploads"
+        ],
+        correct: 0,
+        explanation: {
+            correct: "IoT Core scales to handle millions of devices, multi-region deployment and Kinesis handle 100M msg/sec throughput.",
+            whyWrong: {
+                1: "Single endpoint cannot handle this volume",
+                2: "Database writes don't scale to 100M/sec",
+                3: "File uploads too slow for real-time"
+            },
+            examStrategy: "IoT Core for device connectivity. Multi-region for global scale. Kinesis for high-throughput ingestion."
+        }
+    },
+    {
+        id: 'perf_123',
+        domain: "Domain 3: Design High-Performing Architectures",
+        difficulty: "medium",
+        timeRecommendation: 120,
+        scenario: "A machine learning platform needs to train models on 100TB datasets in under 2 hours.",
+        question: "Which training solution completes in 2 hours?",
+        options: [
+            "SageMaker with distributed training on P4d instances",
+            "Single GPU instance",
+            "CPU-only training",
+            "Manual parameter tuning"
+        ],
+        correct: 0,
+        explanation: {
+            correct: "SageMaker distributed training on P4d instances provides the parallel processing power needed for 100TB in 2 hours.",
+            whyWrong: {
+                1: "Single GPU insufficient for 100TB in 2 hours",
+                2: "CPU training would take days",
+                3: "Manual tuning doesn't address compute needs"
+            },
+            examStrategy: "Distributed training for large datasets. P4d for maximum GPU power. SageMaker for managed training."
+        }
+    },
+    {
+        id: 'perf_124',
+        domain: "Domain 3: Design High-Performing Architectures",
+        difficulty: "easy",
+        timeRecommendation: 90,
+        scenario: "Users complain that your application's API responses are slow during peak hours.",
+        question: "What's the QUICKEST way to improve API response times?",
+        options: [
+            "Implement API response caching",
+            "Rewrite entire application",
+            "Tell users to avoid peak hours",
+            "Add complex monitoring"
+        ],
+        correct: 0,
+        explanation: {
+            correct: "API caching provides immediate performance improvement by serving cached responses without backend processing.",
+            whyWrong: {
+                1: "Rewriting takes months",
+                2: "Avoiding peak hours poor user experience",
+                3: "Monitoring doesn't improve performance"
+            },
+            examStrategy: "Cache first for quick wins. API Gateway caching or CDN. Address symptoms before root cause."
+        }
+    },
+    {
+        id: 'perf_125',
+        domain: "Domain 3: Design High-Performing Architectures",
+        difficulty: "medium",
+        timeRecommendation: 120,
+        scenario: "A logistics platform needs to optimize delivery routes for 50,000 drivers in real-time.",
+        question: "Which solution provides real-time route optimization at scale?",
+        options: [
+            "Amazon Location Service with route optimization and parallel processing",
+            "Manual route planning",
+            "Simple distance calculations",
+            "Static routes"
+        ],
+        correct: 0,
+        explanation: {
+            correct: "Location Service provides managed route optimization, parallel processing handles 50,000 drivers in real-time.",
+            whyWrong: {
+                1: "Manual planning impossible for 50,000",
+                2: "Simple distance ignores traffic and constraints",
+                3: "Static routes don't adapt to conditions"
+            },
+            examStrategy: "Amazon Location for routing and optimization. Managed services for complex algorithms. Parallel processing for scale."
+        }
+    }
+];
 
     // Domain 4: Design Cost-Optimized Architectures (100 questions - 20%)
     cost: [
@@ -9627,10 +11429,609 @@ const questionBank = {
         },
         examStrategy: "Cloud-native architecture for cost optimization. Auto-scaling for elasticity. Managed services reduce TCO. Serverless for variable workloads."
     }
-}
-    ]
-            
- };
+},
+
+    {
+        id: 'cost_101',
+        domain: "Domain 4: Design Cost-Optimized Architectures",
+        difficulty: "medium",
+        timeRecommendation: 120,
+        scenario: "A company runs 200 development/test environments that are idle 75% of the time but need to be available on-demand.",
+        question: "Which strategy provides the GREATEST cost savings for these environments?",
+        options: [
+            "Use AWS Cloud9 with automatic hibernation or EC2 with Instance Scheduler",
+            "Keep all environments running 24/7",
+            "Manually start/stop each environment",
+            "Use production-sized instances"
+        ],
+        correct: 0,
+        explanation: {
+            correct: "Cloud9 auto-hibernates when idle, or Instance Scheduler automatically stops/starts EC2, saving 75% of costs.",
+            whyWrong: {
+                1: "24/7 running wastes money on idle time",
+                2: "Manual management doesn't scale for 200 environments",
+                3: "Production-sized instances waste money in dev/test"
+            },
+            examStrategy: "Automate start/stop for dev environments. Cloud9 for development with auto-hibernation. Save on idle time."
+        }
+    },
+    {
+        id: 'cost_102',
+        domain: "Domain 4: Design Cost-Optimized Architectures",
+        difficulty: "hard",
+        timeRecommendation: 150,
+        scenario: "A company spends $500K/month on AWS. Analysis shows: 40% compute (30% idle), 30% storage (50% cold data), 20% database (20% utilization), 10% network.",
+        question: "Which optimization strategy provides the QUICKEST 40% cost reduction?",
+        options: [
+            "Right-size compute, archive cold data to Glacier, consolidate databases, implement PrivateLink",
+            "Negotiate Enterprise Agreement only",
+            "Move everything to Spot",
+            "Delete random resources"
+        ],
+        correct: 0,
+        explanation: {
+            correct: "Combined approach: Right-sizing saves 30% on compute, Glacier saves 45% on storage, consolidation saves 60% on databases.",
+            whyWrong: {
+                1: "EA alone provides only 10-15% discount",
+                2: "Spot unsuitable for all workloads",
+                3: "Random deletion risks production"
+            },
+            examStrategy: "Multi-pronged optimization. Attack waste in each category. Quick wins compound for major savings."
+        }
+    },
+    {
+        id: 'cost_103',
+        domain: "Domain 4: Design Cost-Optimized Architectures",
+        difficulty: "medium",
+        timeRecommendation: 120,
+        scenario: "A SaaS company needs to reduce data transfer costs currently at $40K/month between regions for replication.",
+        question: "Which approach reduces cross-region transfer costs?",
+        options: [
+            "Reduce replication frequency and use compression",
+            "Increase replication for better redundancy",
+            "Use larger instance types",
+            "Add more regions"
+        ],
+        correct: 0,
+        explanation: {
+            correct: "Less frequent replication reduces transfer volume, compression can reduce by 70%, combining saves significant costs.",
+            whyWrong: {
+                1: "More replication increases costs",
+                2: "Instance size doesn't affect transfer costs",
+                3: "More regions increase transfer costs"
+            },
+            examStrategy: "Reduce transfer frequency where possible. Always compress data. Question replication requirements."
+        }
+    },
+    {
+        id: 'cost_104',
+        domain: "Domain 4: Design Cost-Optimized Architectures",
+        difficulty: "easy",
+        timeRecommendation: 90,
+        scenario: "A startup is paying $5K/month for a Multi-AZ RDS instance used only for development.",
+        question: "How can development database costs be reduced?",
+        options: [
+            "Use Single-AZ for development",
+            "Add more read replicas",
+            "Increase instance size",
+            "Enable Multi-AZ on more databases"
+        ],
+        correct: 0,
+        explanation: {
+            correct: "Single-AZ is sufficient for development, saving 50% over Multi-AZ costs.",
+            whyWrong: {
+                1: "Read replicas increase costs",
+                2: "Larger instances cost more",
+                3: "More Multi-AZ increases costs"
+            },
+            examStrategy: "Multi-AZ only for production. Single-AZ for dev/test. Match availability to requirements."
+        }
+    },
+    {
+        id: 'cost_105',
+        domain: "Domain 4: Design Cost-Optimized Architectures",
+        difficulty: "medium",
+        timeRecommendation: 120,
+        scenario: "A company has 500TB in S3 Standard that hasn't been accessed in 2 years but must be kept for compliance.",
+        question: "Which storage class provides maximum savings for this data?",
+        options: [
+            "S3 Glacier Deep Archive",
+            "Keep in S3 Standard",
+            "S3 Standard-IA",
+            "S3 Intelligent-Tiering"
+        ],
+        correct: 0,
+        explanation: {
+            correct: "Glacier Deep Archive costs $0.00099/GB/month vs $0.023/GB for Standard, saving 95% on 500TB.",
+            whyWrong: {
+                1: "Standard is 23x more expensive",
+                2: "Standard-IA still 12x more expensive",
+                3: "Intelligent-Tiering has fees and higher base cost"
+            },
+            examStrategy: "Deep Archive for compliance data never accessed. 95% savings over Standard. Lowest cost storage."
+        }
+    },
+    {
+        id: 'cost_106',
+        domain: "Domain 4: Design Cost-Optimized Architectures",
+        difficulty: "hard",
+        timeRecommendation: 150,
+        scenario: "A company needs to optimize their containerized microservices. Currently: 500 services, 1000 containers, 40% CPU utilization, $200K/month.",
+        question: "Which optimization provides the best cost reduction?",
+        options: [
+            "ECS with Fargate Spot for stateless services and bin packing for stateful",
+            "Move everything to Lambda",
+            "Kubernetes everywhere",
+            "One container per EC2 instance"
+        ],
+        correct: 0,
+        explanation: {
+            correct: "Fargate Spot saves 70% for stateless services, bin packing improves utilization to 70%, reducing costs by 50%.",
+            whyWrong: {
+                1: "Lambda unsuitable for all container workloads",
+                2: "Kubernetes alone doesn't reduce costs",
+                3: "One per instance wastes resources"
+            },
+            examStrategy: "Fargate Spot for stateless containers. Bin packing for utilization. Mix compute types for optimization."
+        }
+    },
+    {
+        id: 'cost_107',
+        domain: "Domain 4: Design Cost-Optimized Architectures",
+        difficulty: "medium",
+        timeRecommendation: 120,
+        scenario: "A media company needs to reduce CloudFront costs of $80K/month while maintaining global performance.",
+        question: "Which optimization reduces CloudFront costs?",
+        options: [
+            "Increase cache TTLs and implement Origin Shield",
+            "Remove CloudFront entirely",
+            "Reduce cache TTLs",
+            "Add more distributions"
+        ],
+        correct: 0,
+        explanation: {
+            correct: "Longer TTLs reduce origin requests by 80%, Origin Shield reduces origin load by additional 90%, cutting costs significantly.",
+            whyWrong: {
+                1: "Removing CloudFront impacts performance",
+                2: "Shorter TTLs increase costs",
+                3: "More distributions increase costs"
+            },
+            examStrategy: "Maximize cache hit ratio. Origin Shield for additional caching. Longer TTLs where possible."
+        }
+    },
+    {
+        id: 'cost_108',
+        domain: "Domain 4: Design Cost-Optimized Architectures",
+        difficulty: "easy",
+        timeRecommendation: 90,
+        scenario: "A company wants to reduce their $10K/month Elastic IP charges.",
+        question: "What's the primary cause and solution for high Elastic IP costs?",
+        options: [
+            "Unassociated EIPs - release unused IPs immediately",
+            "Too few EIPs - acquire more",
+            "EIPs are free - this is an error",
+            "Nothing can be done"
+        ],
+        correct: 0,
+        explanation: {
+            correct: "Unassociated Elastic IPs incur hourly charges. Releasing unused IPs eliminates these costs immediately.",
+            whyWrong: {
+                1: "More EIPs increase costs",
+                2: "Unassociated EIPs are not free",
+                3: "Costs can definitely be reduced"
+            },
+            examStrategy: "Release unassociated EIPs. Only keep IPs in use. Use DNS instead of hard-coded IPs."
+        }
+    },
+    {
+        id: 'cost_109',
+        domain: "Domain 4: Design Cost-Optimized Architectures",
+        difficulty: "medium",
+        timeRecommendation: 120,
+        scenario: "A company runs batch processing 8 hours nightly on 50 m5.4xlarge instances costing $30K/month.",
+        question: "Which strategy provides maximum cost savings?",
+        options: [
+            "Spot Fleet with diversified instance types",
+            "Reserved Instances for all 50",
+            "On-Demand forever",
+            "Reduce to 25 instances"
+        ],
+        correct: 0,
+        explanation: {
+            correct: "Spot Fleet provides up to 90% discount for batch workloads, diversification ensures capacity availability.",
+            whyWrong: {
+                1: "RIs charge 24/7 for 8-hour usage",
+                2: "On-Demand most expensive option",
+                3: "Fewer instances may not complete work in time"
+            },
+            examStrategy: "Spot for batch processing. Diversify instance types. 90% savings possible with Spot."
+        }
+    },
+    {
+        id: 'cost_110',
+        domain: "Domain 4: Design Cost-Optimized Architectures",
+        difficulty: "hard",
+        timeRecommendation: 150,
+        scenario: "A global company has $2M annual spend with 3-year 200% growth projection. How should they optimize purchasing?",
+        question: "Which commitment strategy best handles growth?",
+        options: [
+            "1-year Convertible RIs for baseline, Savings Plans for growth",
+            "3-year Standard RIs for everything",
+            "All On-Demand",
+            "All Spot Instances"
+        ],
+        correct: 0,
+        explanation: {
+            correct: "Convertible RIs provide flexibility to change instance types, Savings Plans adapt to growth, 1-year terms allow adjustment.",
+            whyWrong: {
+                1: "3-year Standard RIs too rigid for 200% growth",
+                2: "On-Demand too expensive",
+                3: "Spot unsuitable for all workloads"
+            },
+            examStrategy: "Shorter terms for growing companies. Convertible for flexibility. Layer purchasing strategies."
+        }
+    },
+    {
+        id: 'cost_111',
+        domain: "Domain 4: Design Cost-Optimized Architectures",
+        difficulty: "medium",
+        timeRecommendation: 120,
+        scenario: "A company's Lambda bill is $40K/month. Analysis shows 70% from provisioned concurrency on rarely-used functions.",
+        question: "How can Lambda costs be reduced?",
+        options: [
+            "Remove provisioned concurrency from low-traffic functions",
+            "Add more provisioned concurrency",
+            "Increase memory for all functions",
+            "Switch to EC2"
+        ],
+        correct: 0,
+        explanation: {
+            correct: "Removing provisioned concurrency from rarely-used functions saves 70% while maintaining performance where needed.",
+            whyWrong: {
+                1: "More provisioned concurrency increases costs",
+                2: "More memory may not reduce provisioned costs",
+                3: "EC2 loses serverless benefits"
+            },
+            examStrategy: "Provisioned concurrency only for high-traffic. Regular Lambda for sporadic. Match configuration to usage."
+        }
+    },
+    {
+        id: 'cost_112',
+        domain: "Domain 4: Design Cost-Optimized Architectures",
+        difficulty: "easy",
+        timeRecommendation: 90,
+        scenario: "A company wants to track cloud costs by project but uses a single AWS account.",
+        question: "How can costs be allocated to projects?",
+        options: [
+            "Use cost allocation tags",
+            "Manually track in spreadsheets",
+            "Guess based on resource names",
+            "Impossible with single account"
+        ],
+        correct: 0,
+        explanation: {
+            correct: "Cost allocation tags enable detailed cost tracking by project within a single account using Cost Explorer.",
+            whyWrong: {
+                1: "Manual tracking is error-prone",
+                2: "Guessing is inaccurate",
+                3: "Tags make it possible in single account"
+            },
+            examStrategy: "Cost allocation tags for project tracking. Activate tags in billing. No need for separate accounts."
+        }
+    },
+    {
+        id: 'cost_113',
+        domain: "Domain 4: Design Cost-Optimized Architectures",
+        difficulty: "medium",
+        timeRecommendation: 120,
+        scenario: "A company needs to optimize their NAT Gateway costs of $45/month per gateway across 20 VPCs.",
+        question: "How can NAT Gateway costs be reduced?",
+        options: [
+            "Use Transit Gateway with centralized egress VPC",
+            "Add more NAT Gateways",
+            "Use NAT Instances",
+            "Remove all internet access"
+        ],
+        correct: 0,
+        explanation: {
+            correct: "Centralized egress VPC with Transit Gateway reduces 20 NAT Gateways to 1-2, saving 90% of NAT costs.",
+            whyWrong: {
+                1: "More gateways increase costs",
+                2: "NAT Instances require management",
+                3: "Removing internet breaks functionality"
+            },
+            examStrategy: "Centralize NAT Gateways. Transit Gateway for VPC connectivity. Egress VPC pattern for cost savings."
+        }
+    },
+    {
+        id: 'cost_114',
+        domain: "Domain 4: Design Cost-Optimized Architectures",
+        difficulty: "hard",
+        timeRecommendation: 150,
+        scenario: "A company has complex licensing: 500 Windows, 200 SQL Server, 100 Oracle licenses. Currently paying AWS for licensing.",
+        question: "How can licensing costs be optimized?",
+        options: [
+            "Dedicated Hosts for all with BYOL, track with License Manager",
+            "Continue paying AWS for all licenses",
+            "Eliminate all licensed software",
+            "Use one Dedicated Host"
+        ],
+        correct: 0,
+        explanation: {
+            correct: "Dedicated Hosts enable BYOL saving 50-70% on licensing, License Manager tracks compliance across hosts.",
+            whyWrong: {
+                1: "AWS licensing doubles costs for owned licenses",
+                2: "Eliminating licensed software may not be feasible",
+                3: "One host insufficient for 800 instances"
+            },
+            examStrategy: "BYOL on Dedicated Hosts. License Manager for compliance. Significant savings on licensed software."
+        }
+    },
+    {
+        id: 'cost_115',
+        domain: "Domain 4: Design Cost-Optimized Architectures",
+        difficulty: "medium",
+        timeRecommendation: 120,
+        scenario: "A company's DynamoDB costs are $50K/month with hot partitions causing over-provisioning.",
+        question: "How can DynamoDB costs be reduced?",
+        options: [
+            "Fix partition key design to distribute load evenly",
+            "Add more capacity",
+            "Add Global Secondary Indexes",
+            "Switch to provisioned capacity"
+        ],
+        correct: 0,
+        explanation: {
+            correct: "Proper partition key design distributes load evenly, eliminating need for over-provisioning, saving up to 80%.",
+            whyWrong: {
+                1: "More capacity increases costs",
+                2: "GSIs add costs",
+                3: "Provisioned doesn't fix hot partitions"
+            },
+            examStrategy: "Fix partition key design first. Even distribution reduces capacity needs. Design before scaling."
+        }
+    },
+    {
+        id: 'cost_116',
+        domain: "Domain 4: Design Cost-Optimized Architectures",
+        difficulty: "easy",
+        timeRecommendation: 90,
+        scenario: "A startup wants to prevent runaway AWS costs during development.",
+        question: "Which feature provides the best cost control?",
+        options: [
+            "AWS Budgets with automatic actions",
+            "Check bill monthly",
+            "Unlimited budget",
+            "Hope for the best"
+        ],
+        correct: 0,
+        explanation: {
+            correct: "AWS Budgets with actions can automatically stop resources when spending exceeds thresholds, preventing runaway costs.",
+            whyWrong: {
+                1: "Monthly checks too late for daily overruns",
+                2: "Unlimited budget invites waste",
+                3: "Hope is not a strategy"
+            },
+            examStrategy: "AWS Budgets with actions for cost control. Automatic enforcement. Set conservative limits for development."
+        }
+    },
+    {
+        id: 'cost_117',
+        domain: "Domain 4: Design Cost-Optimized Architectures",
+        difficulty: "medium",
+        timeRecommendation: 120,
+        scenario: "A company runs 1000 Lambda functions. Monthly cost: $60K with 80% from duration charges.",
+        question: "How can Lambda duration costs be reduced?",
+        options: [
+            "Optimize code and right-size memory allocation",
+            "Add more memory to all functions",
+            "Convert to EC2",
+            "Reduce function count"
+        ],
+        correct: 0,
+        explanation: {
+            correct: "Code optimization reduces execution time, right-sized memory balances performance and cost, potentially saving 50%.",
+            whyWrong: {
+                1: "More memory might increase costs",
+                2: "EC2 loses serverless benefits",
+                3: "Function count doesn't affect duration"
+            },
+            examStrategy: "Optimize Lambda code first. Right-size memory for cost/performance. Sometimes less memory is cheaper."
+        }
+    },
+    {
+        id: 'cost_118',
+        domain: "Domain 4: Design Cost-Optimized Architectures",
+        difficulty: "hard",
+        timeRecommendation: 150,
+        scenario: "A company needs to optimize $3M annual spend. Current: 40% waste identified, 500 accounts, no governance.",
+        question: "What's the FIRST step in optimization?",
+        options: [
+            "Implement Control Tower and Organizations for governance",
+            "Buy Reserved Instances immediately",
+            "Delete random resources",
+            "Do nothing"
+        ],
+        correct: 0,
+        explanation: {
+            correct: "Control Tower and Organizations provide governance foundation, enabling visibility and control before optimization.",
+            whyWrong: {
+                1: "RIs without governance perpetuate waste",
+                2: "Random deletion risks production",
+                3: "Doing nothing wastes $1.2M annually"
+            },
+            examStrategy: "Governance before optimization. Control Tower for multi-account. Visibility enables optimization."
+        }
+    },
+    {
+        id: 'cost_119',
+        domain: "Domain 4: Design Cost-Optimized Architectures",
+        difficulty: "medium",
+        timeRecommendation: 120,
+        scenario: "A company's data transfer costs are $100K/month: 50% S3 to EC2, 30% cross-AZ, 20% internet egress.",
+        question: "Which optimization provides greatest savings?",
+        options: [
+            "VPC endpoints for S3, same-AZ placement, CloudFront for egress",
+            "Increase data transfer",
+            "Add more availability zones",
+            "Use larger instances"
+        ],
+        correct: 0,
+        explanation: {
+            correct: "VPC endpoints eliminate S3 transfer costs, same-AZ removes cross-AZ charges, CloudFront reduces egress costs.",
+            whyWrong: {
+                1: "More transfer increases costs",
+                2: "More AZs increase cross-AZ costs",
+                3: "Instance size doesn't affect transfer costs"
+            },
+            examStrategy: "VPC endpoints for S3 transfers. Same-AZ when possible. CloudFront for internet egress."
+        }
+    },
+    {
+        id: 'cost_120',
+        domain: "Domain 4: Design Cost-Optimized Architectures",
+        difficulty: "easy",
+        timeRecommendation: 90,
+        scenario: "A company has 100 EBS volumes unattached for 6 months, costing $5K/month.",
+        question: "What should be done with unattached EBS volumes?",
+        options: [
+            "Delete or snapshot then delete unneeded volumes",
+            "Keep them forever",
+            "Attach to stopped instances",
+            "Increase volume size"
+        ],
+        correct: 0,
+        explanation: {
+            correct: "Deleting unattached volumes saves $5K/month, snapshots preserve data if needed later at lower cost.",
+            whyWrong: {
+                1: "Keeping forever wastes money",
+                2: "Attaching to stopped instances still incurs charges",
+                3: "Increasing size increases costs"
+            },
+            examStrategy: "Delete unattached volumes. Snapshot if unsure. Regular cleanup of unused resources."
+        }
+    },
+    {
+        id: 'cost_121',
+        domain: "Domain 4: Design Cost-Optimized Architectures",
+        difficulty: "medium",
+        timeRecommendation: 120,
+        scenario: "A company needs to optimize RDS costs. 30 instances with 25% CPU utilization, automated backups for 35 days.",
+        question: "Which optimization provides best savings?",
+        options: [
+            "Consolidate databases and reduce backup retention",
+            "Add more instances",
+            "Increase instance sizes",
+            "Keep current setup"
+        ],
+        correct: 0,
+        explanation: {
+            correct: "Consolidation reduces instance count by 60%, shorter retention reduces backup storage by 70%.",
+            whyWrong: {
+                1: "More instances increase costs",
+                2: "Larger instances increase costs with low utilization",
+                3: "Current setup wastes money"
+            },
+            examStrategy: "Consolidate underutilized databases. Optimize backup retention. Question long retention requirements."
+        }
+    },
+    {
+        id: 'cost_122',
+        domain: "Domain 4: Design Cost-Optimized Architectures",
+        difficulty: "hard",
+        timeRecommendation: 150,
+        scenario: "A SaaS platform needs to optimize multi-tenant costs. 10,000 tenants, top 1% use 50% of resources.",
+        question: "Which architecture enables fair cost allocation?",
+        options: [
+            "Tenant isolation with usage metering and tiered pricing",
+            "Same price for all tenants",
+            "No tracking",
+            "Charge randomly"
+        ],
+        correct: 0,
+        explanation: {
+            correct: "Usage metering enables charging based on consumption, tiered pricing ensures heavy users pay appropriately.",
+            whyWrong: {
+                1: "Same price subsidizes heavy users",
+                2: "No tracking prevents optimization",
+                3: "Random charging is unfair"
+            },
+            examStrategy: "Usage-based pricing for SaaS. Meter resource consumption. Align pricing with costs."
+        }
+    },
+    {
+        id: 'cost_123',
+        domain: "Domain 4: Design Cost-Optimized Architectures",
+        difficulty: "medium",
+        timeRecommendation: 120,
+        scenario: "A company's Redshift cluster costs $40K/month but only runs queries 4 hours daily.",
+        question: "Which solution optimizes Redshift costs?",
+        options: [
+            "Pause cluster when not in use or migrate to Redshift Serverless",
+            "Keep running 24/7",
+            "Add more nodes",
+            "Run queries continuously"
+        ],
+        correct: 0,
+        explanation: {
+            correct: "Pausing saves 83% for 4-hour usage, or Serverless charges only for actual compute used.",
+            whyWrong: {
+                1: "24/7 wastes money for 4-hour usage",
+                2: "More nodes increase costs",
+                3: "Unnecessary queries waste resources"
+            },
+            examStrategy: "Pause Redshift when idle. Consider Serverless for variable workloads. Pay for what you use."
+        }
+    },
+    {
+        id: 'cost_124',
+        domain: "Domain 4: Design Cost-Optimized Architectures",
+        difficulty: "easy",
+        timeRecommendation: 90,
+        scenario: "A developer left a GPU instance running for a month by accident, costing $8,000.",
+        question: "How can this be prevented in the future?",
+        options: [
+            "Auto-termination policy with tagging and idle detection",
+            "Trust developers to remember",
+            "Never use GPU instances",
+            "Increase budget to cover mistakes"
+        ],
+        correct: 0,
+        explanation: {
+            correct: "Auto-termination based on idle time and tags prevents expensive instances from running forgotten.",
+            whyWrong: {
+                1: "Human memory unreliable",
+                2: "GPU instances needed for some workloads",
+                3: "Increasing budget encourages waste"
+            },
+            examStrategy: "Automate termination for expensive resources. Tag-based governance. Idle detection for cleanup."
+        }
+    },
+    {
+        id: 'cost_125',
+        domain: "Domain 4: Design Cost-Optimized Architectures",
+        difficulty: "medium",
+        timeRecommendation: 120,
+        scenario: "A company completed cloud migration but costs are 50% higher than on-premises TCO.",
+        question: "What's the PRIMARY reason and solution?",
+        options: [
+            "Lift-and-shift without optimization - refactor for cloud-native",
+            "Cloud is always more expensive - move back",
+            "Add more resources",
+            "Ignore the problem"
+        ],
+        correct: 0,
+        explanation: {
+            correct: "Lift-and-shift doesn't leverage cloud benefits. Refactoring for cloud-native (auto-scaling, serverless, managed services) reduces costs below on-premises.",
+            whyWrong: {
+                1: "Cloud can be cheaper when optimized",
+                2: "More resources increase costs",
+                3: "Ignoring wastes money continuously"
+            },
+            examStrategy: "Cloud-native architecture for cost optimization. Leverage auto-scaling and serverless. Managed services reduce TCO."
+        }
+    }
+];
 
 // Update the statistics
 const totalQuestions = 

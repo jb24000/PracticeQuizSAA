@@ -3614,8 +3614,1207 @@ const questionBank = {
             },
             examStrategy: "IoT Core for IoT device management. Rules engine for reliable routing. S3 for durable storage. Purpose-built services."
         }
+    },
+  {
+        id: 'res_051',
+        domain: "Domain 2: Design Resilient Architectures",
+        difficulty: "medium",
+        timeRecommendation: 120,
+        scenario: "A company needs to ensure their microservices architecture can handle cascading failures when downstream services become unavailable.",
+        question: "Which pattern provides the BEST protection against cascading failures?",
+        options: [
+            "Circuit breaker pattern with exponential backoff and fallback responses",
+            "Increased timeout values for all service calls",
+            "Synchronous retries with fixed intervals",
+            "Load balancer health checks only"
+        ],
+        correct: 0,
+        explanation: {
+            correct: "Circuit breakers prevent cascading failures by failing fast when downstream services are unhealthy, with fallback responses maintaining functionality.",
+            whyWrong: {
+                1: "Increased timeouts can worsen cascading failures by holding resources longer",
+                2: "Fixed interval retries can overwhelm recovering services",
+                3: "Health checks alone don't prevent cascade failures in service calls"
+            },
+            examStrategy: "Circuit breaker pattern for microservices resilience. Fail fast to prevent resource exhaustion. Fallback strategies maintain service."
+        }
+    },
+    {
+        id: 'res_052',
+        domain: "Domain 2: Design Resilient Architectures",
+        difficulty: "hard",
+        timeRecommendation: 150,
+        scenario: "A global financial platform requires 99.999% availability (5 minutes downtime/year) for their trading API. The system processes $1B in transactions daily.",
+        question: "Which architecture can realistically achieve 99.999% availability?",
+        options: [
+            "Multi-region active-active with Route 53 health checks, cellular architecture, and regional isolation",
+            "Single region with multiple AZs and Auto Scaling",
+            "Active-passive setup with 1-minute failover",
+            "Serverless architecture with Lambda and API Gateway"
+        ],
+        correct: 0,
+        explanation: {
+            correct: "Multi-region active-active with cellular architecture provides isolation and redundancy necessary for five-nines availability.",
+            whyWrong: {
+                1: "Single region cannot achieve five-nines due to regional issues",
+                2: "Active-passive with 1-minute failover already exceeds yearly allowance",
+                3: "Serverless alone doesn't guarantee five-nines without multi-region"
+            },
+            examStrategy: "Five-nines requires multi-region active-active. Cellular architecture for blast radius reduction. Consider all failure modes."
+        }
+    },
+    {
+        id: 'res_053',
+        domain: "Domain 2: Design Resilient Architectures",
+        difficulty: "medium",
+        timeRecommendation: 120,
+        scenario: "A video streaming service needs to handle graceful degradation when their recommendation engine fails without impacting video playback.",
+        question: "Which architecture pattern enables graceful degradation?",
+        options: [
+            "Bulkhead pattern with separate thread pools for core and auxiliary features",
+            "Monolithic architecture with try-catch blocks",
+            "Tight coupling with circuit breakers",
+            "Synchronous microservices with retries"
+        ],
+        correct: 0,
+        explanation: {
+            correct: "Bulkhead pattern isolates failures in auxiliary services (recommendations) from core services (video playback).",
+            whyWrong: {
+                1: "Monolithic architecture makes isolation difficult",
+                2: "Tight coupling propagates failures regardless of circuit breakers",
+                3: "Synchronous calls create dependencies that prevent graceful degradation"
+            },
+            examStrategy: "Bulkhead pattern for failure isolation. Separate critical from non-critical paths. Async for loose coupling."
+        }
+    },
+    {
+        id: 'res_054',
+        domain: "Domain 2: Design Resilient Architectures",
+        difficulty: "easy",
+        timeRecommendation: 90,
+        scenario: "A company wants to ensure their Auto Scaling group maintains minimum capacity even during multiple AZ failures.",
+        question: "How should the Auto Scaling group be configured for maximum resilience?",
+        options: [
+            "Distribute across all available AZs with minimum capacity set appropriately",
+            "Use a single AZ for simplicity",
+            "Two AZs with 50% capacity in each",
+            "Rely on On-Demand capacity during failures"
+        ],
+        correct: 0,
+        explanation: {
+            correct: "Distributing across all AZs provides maximum resilience, with capacity to handle multiple AZ failures.",
+            whyWrong: {
+                1: "Single AZ has no resilience to AZ failures",
+                2: "Two AZs limits resilience compared to all available AZs",
+                3: "On-Demand might not be available during widespread failures"
+            },
+            examStrategy: "Use all available AZs for maximum resilience. Set minimum capacity considering AZ failure scenarios."
+        }
+    },
+    {
+        id: 'res_055',
+        domain: "Domain 2: Design Resilient Architectures",
+        difficulty: "medium",
+        timeRecommendation: 120,
+        scenario: "An e-commerce platform needs to maintain shopping cart consistency across multiple regions during regional failures.",
+        question: "Which data synchronization strategy provides the BEST cart consistency with regional resilience?",
+        options: [
+            "DynamoDB Global Tables with last-writer-wins conflict resolution",
+            "Cross-region RDS read replicas",
+            "S3 Cross-Region Replication with versioning",
+            "ElastiCache Global Datastore"
+        ],
+        correct: 0,
+        explanation: {
+            correct: "DynamoDB Global Tables provide multi-region active-active replication with automatic conflict resolution for cart data.",
+            whyWrong: {
+                1: "RDS read replicas are read-only, can't handle writes in multiple regions",
+                2: "S3 CRR has replication delay not suitable for active cart sessions",
+                3: "ElastiCache Global Datastore has a primary region for writes"
+            },
+            examStrategy: "DynamoDB Global Tables for multi-region active-active. Built-in conflict resolution. Sub-second replication."
+        }
+    },
+    {
+        id: 'res_056',
+        domain: "Domain 2: Design Resilient Architectures",
+        difficulty: "hard",
+        timeRecommendation: 150,
+        scenario: "A healthcare system requires zero data loss (RPO=0) for patient records with automatic failover completing within 30 seconds (RTO=30s).",
+        question: "Which database solution meets both RPO=0 and RTO=30s requirements?",
+        options: [
+            "Amazon Aurora with synchronous replication to standby in different AZ",
+            "RDS Multi-AZ with automated backups",
+            "DynamoDB with point-in-time recovery",
+            "Self-managed database on EC2 with DRBD replication"
+        ],
+        correct: 0,
+        explanation: {
+            correct: "Aurora provides synchronous replication (RPO=0) with automatic failover typically completing in under 30 seconds.",
+            whyWrong: {
+                1: "RDS Multi-AZ failover can take 60-120 seconds",
+                2: "DynamoDB PITR doesn't provide RPO=0",
+                3: "Self-managed solutions require manual failover, exceeding RTO"
+            },
+            examStrategy: "Aurora for RPO=0 with fast failover. Know typical failover times: Aurora <30s, RDS Multi-AZ 60-120s."
+        }
+    },
+    {
+        id: 'res_057',
+        domain: "Domain 2: Design Resilient Architectures",
+        difficulty: "medium",
+        timeRecommendation: 120,
+        scenario: "A social media platform needs to handle sudden viral content that can increase traffic by 10,000% within minutes.",
+        question: "Which caching strategy provides the BEST protection against viral content traffic spikes?",
+        options: [
+            "CloudFront with Origin Shield and high cache TTLs for popular content",
+            "ElastiCache with lazy loading",
+            "Application-level caching only",
+            "No caching, rely on Auto Scaling"
+        ],
+        correct: 0,
+        explanation: {
+            correct: "CloudFront with Origin Shield provides multiple caching layers, protecting origins from massive traffic spikes.",
+            whyWrong: {
+                1: "ElastiCache alone might be overwhelmed before scaling",
+                2: "Application caching doesn't protect against initial traffic surge",
+                3: "Auto Scaling can't react fast enough for 10,000% instant spikes"
+            },
+            examStrategy: "CloudFront Origin Shield for viral content protection. Edge caching absorbs traffic spikes. Cache popular content aggressively."
+        }
+    },
+    {
+        id: 'res_058',
+        domain: "Domain 2: Design Resilient Architectures",
+        difficulty: "easy",
+        timeRecommendation: 90,
+        scenario: "A company needs to ensure their batch processing jobs complete even if Spot Instances are interrupted.",
+        question: "Which strategy ensures batch job completion despite Spot interruptions?",
+        options: [
+            "Implement checkpointing with job state saved to S3",
+            "Use only On-Demand instances",
+            "Increase Spot bid prices to maximum",
+            "Run duplicate jobs in parallel"
+        ],
+        correct: 0,
+        explanation: {
+            correct: "Checkpointing allows jobs to resume from the last saved state after interruption, ensuring eventual completion.",
+            whyWrong: {
+                1: "On-Demand instances eliminate cost benefits of Spot",
+                2: "High bid prices don't guarantee availability",
+                3: "Duplicate jobs waste resources and don't handle interruptions"
+            },
+            examStrategy: "Checkpointing for Spot Instance resilience. Save state frequently. Design for interruption from the start."
+        }
+    },
+    {
+        id: 'res_059',
+        domain: "Domain 2: Design Resilient Architectures",
+        difficulty: "medium",
+        timeRecommendation: 120,
+        scenario: "A gaming company needs to maintain player session state during server failures without losing game progress.",
+        question: "Which session management approach provides the BEST failure resilience?",
+        options: [
+            "External session store in ElastiCache Redis with AOF persistence",
+            "Sticky sessions with session replication",
+            "Local session storage on each server",
+            "Client-side session storage only"
+        ],
+        correct: 0,
+        explanation: {
+            correct: "External session store in Redis with AOF persistence survives server failures and maintains game state.",
+            whyWrong: {
+                1: "Session replication has lag and complexity",
+                2: "Local storage lost on server failure",
+                3: "Client-side storage vulnerable to tampering in gaming"
+            },
+            examStrategy: "Externalize session state for resilience. Redis with persistence for game state. Never trust client-side state for gaming."
+        }
+    },
+    {
+        id: 'res_060',
+        domain: "Domain 2: Design Resilient Architectures",
+        difficulty: "hard",
+        timeRecommendation: 150,
+        scenario: "A financial institution needs to implement a disaster recovery solution that can failover an entire region's workload (1000+ services) in under 15 minutes.",
+        question: "Which DR orchestration approach can handle massive-scale failover within 15 minutes?",
+        options: [
+            "AWS Elastic Disaster Recovery with pre-configured recovery plans and parallel execution",
+            "Manual runbooks with step-by-step procedures",
+            "CloudFormation stacks in backup region",
+            "Individual service failover scripts"
+        ],
+        correct: 0,
+        explanation: {
+            correct: "Elastic Disaster Recovery automates and orchestrates large-scale failovers with parallel execution meeting the 15-minute requirement.",
+            whyWrong: {
+                1: "Manual procedures can't complete 1000+ services in 15 minutes",
+                2: "CloudFormation would need to create resources from scratch",
+                3: "Individual scripts lack coordination and parallel execution"
+            },
+            examStrategy: "AWS Elastic Disaster Recovery for orchestrated DR. Automation essential for large-scale failover. Pre-staged resources for speed."
+        }
+    },
+    {
+        id: 'res_061',
+        domain: "Domain 2: Design Resilient Architectures",
+        difficulty: "medium",
+        timeRecommendation: 120,
+        scenario: "A company needs to protect their web application from both infrastructure failures and application-level errors.",
+        question: "Which combination provides comprehensive failure protection?",
+        options: [
+            "Multi-AZ deployment with Auto Scaling and application-level health checks with automatic instance replacement",
+            "Single AZ with frequent backups",
+            "Multiple regions with manual failover",
+            "Serverless architecture only"
+        ],
+        correct: 0,
+        explanation: {
+            correct: "Multi-AZ handles infrastructure failures while application health checks detect and replace instances with application errors.",
+            whyWrong: {
+                1: "Single AZ vulnerable to AZ failures regardless of backups",
+                2: "Manual failover too slow for application-level issues",
+                3: "Serverless doesn't eliminate all application-level errors"
+            },
+            examStrategy: "Layer your resilience: infrastructure (Multi-AZ) and application (health checks). Automatic recovery over manual."
+        }
+    },
+    {
+        id: 'res_062',
+        domain: "Domain 2: Design Resilient Architectures",
+        difficulty: "easy",
+        timeRecommendation: 90,
+        scenario: "A company wants to ensure their application continues running even if an entire Availability Zone fails.",
+        question: "What is the MINIMUM configuration for AZ failure resilience?",
+        options: [
+            "Deploy across at least 2 AZs with load balancing",
+            "Single AZ with automated backups",
+            "Single AZ with standby instances",
+            "Multiple subnets in one AZ"
+        ],
+        correct: 0,
+        explanation: {
+            correct: "Minimum 2 AZs required for AZ failure resilience, with load balancing to route traffic to healthy AZ.",
+            whyWrong: {
+                1: "Backups don't help with AZ failure availability",
+                2: "Standby instances in same AZ fail together",
+                3: "Multiple subnets in one AZ don't provide AZ resilience"
+            },
+            examStrategy: "Minimum 2 AZs for AZ failure protection. Load balancer for traffic distribution. This is fundamental AWS resilience."
+        }
+    },
+    {
+        id: 'res_063',
+        domain: "Domain 2: Design Resilient Architectures",
+        difficulty: "medium",
+        timeRecommendation: 120,
+        scenario: "An IoT platform needs to handle intermittent connectivity from millions of devices without losing telemetry data.",
+        question: "Which ingestion architecture provides the BEST resilience for intermittent connections?",
+        options: [
+            "AWS IoT Core with persistent sessions and offline message queuing",
+            "Direct API Gateway calls with retries",
+            "Kinesis Data Streams with producer library",
+            "SQS with long polling"
+        ],
+        correct: 0,
+        explanation: {
+            correct: "IoT Core provides MQTT persistent sessions and offline message queuing, designed specifically for intermittent IoT connectivity.",
+            whyWrong: {
+                1: "API Gateway doesn't handle offline queuing",
+                2: "Kinesis requires constant connectivity for streaming",
+                3: "SQS requires devices to manage queue interactions"
+            },
+            examStrategy: "IoT Core for IoT-specific challenges. Persistent sessions for intermittent connectivity. Purpose-built over general-purpose."
+        }
+    },
+    {
+        id: 'res_064',
+        domain: "Domain 2: Design Resilient Architectures",
+        difficulty: "hard",
+        timeRecommendation: 150,
+        scenario: "A blockchain node operator needs to maintain node synchronization and availability despite network partitions and Byzantine failures.",
+        question: "Which architecture provides the BEST resilience for blockchain node operations?",
+        options: [
+            "Multiple nodes across regions with consensus protocol and automatic peer discovery",
+            "Single powerful node with redundant network connections",
+            "Clustered nodes in single AZ for low latency",
+            "Serverless architecture with Lambda"
+        ],
+        correct: 0,
+        explanation: {
+            correct: "Geographic distribution with consensus protocols handles both network partitions and Byzantine failures inherent to blockchain.",
+            whyWrong: {
+                1: "Single node is a single point of failure",
+                2: "Single AZ vulnerable to AZ-wide issues",
+                3: "Lambda not suitable for stateful blockchain nodes"
+            },
+            examStrategy: "Blockchain requires geographic distribution. Consensus protocols for Byzantine fault tolerance. State management crucial."
+        }
+    },
+    {
+        id: 'res_065',
+        domain: "Domain 2: Design Resilient Architectures",
+        difficulty: "medium",
+        timeRecommendation: 120,
+        scenario: "A news website needs to remain available during breaking news events when traffic increases by 1000x in seconds.",
+        question: "Which architecture provides instant scalability for massive traffic spikes?",
+        options: [
+            "Static site generation with S3 and CloudFront",
+            "Auto Scaling with predictive scaling",
+            "Lambda with reserved concurrency",
+            "ECS with target tracking scaling"
+        ],
+        correct: 0,
+        explanation: {
+            correct: "Static sites on S3 with CloudFront can handle virtually unlimited traffic instantly without scaling delays.",
+            whyWrong: {
+                1: "Auto Scaling takes minutes to provision new instances",
+                2: "Lambda reserved concurrency has limits",
+                3: "ECS scaling takes time to start new tasks"
+            },
+            examStrategy: "Static content for infinite scalability. CloudFront absorbs spikes. Pre-generate content when possible."
+        }
+    },
+    {
+        id: 'res_066',
+        domain: "Domain 2: Design Resilient Architectures",
+        difficulty: "easy",
+        timeRecommendation: 90,
+        scenario: "A company needs to protect their application from accidental data deletion by developers.",
+        question: "Which S3 feature provides protection against accidental deletion?",
+        options: [
+            "Enable versioning and MFA Delete",
+            "Cross-Region Replication",
+            "Lifecycle policies",
+            "Storage class transitions"
+        ],
+        correct: 0,
+        explanation: {
+            correct: "Versioning preserves deleted objects as previous versions, MFA Delete requires additional authentication for permanent deletion.",
+            whyWrong: {
+                1: "CRR replicates deletions too",
+                2: "Lifecycle policies automate deletion, don't prevent it",
+                3: "Storage class transitions don't protect against deletion"
+            },
+            examStrategy: "Versioning for deletion protection. MFA Delete for additional security. S3 Object Lock for compliance requirements."
+        }
+    },
+    {
+        id: 'res_067',
+        domain: "Domain 2: Design Resilient Architectures",
+        difficulty: "medium",
+        timeRecommendation: 120,
+        scenario: "A SaaS platform needs to isolate customer workloads so that one customer's failure doesn't affect others.",
+        question: "Which multi-tenant architecture provides the BEST failure isolation?",
+        options: [
+            "Separate Lambda functions per tenant with reserved concurrency limits",
+            "Shared infrastructure with try-catch blocks",
+            "Single large cluster with namespace separation",
+            "Shared database with row-level security"
+        ],
+        correct: 0,
+        explanation: {
+            correct: "Separate Lambda functions with reserved concurrency provide hard isolation limits preventing one tenant from consuming all resources.",
+            whyWrong: {
+                1: "Try-catch doesn't prevent resource exhaustion",
+                2: "Namespace separation doesn't prevent noisy neighbor issues",
+                3: "Shared database can have performance interference"
+            },
+            examStrategy: "Hard isolation over soft limits. Reserved concurrency for tenant isolation. Cellular architecture for multi-tenancy."
+        }
+    },
+    {
+        id: 'res_068',
+        domain: "Domain 2: Design Resilient Architectures",
+        difficulty: "hard",
+        timeRecommendation: 150,
+        scenario: "A real-time trading system requires message ordering guarantees even during broker failures and network partitions.",
+        question: "Which messaging architecture provides ordered delivery with maximum resilience?",
+        options: [
+            "Amazon MQ with active/standby brokers and message persistence",
+            "SQS Standard with client-side ordering",
+            "SNS with message attributes",
+            "Kinesis with random partition keys"
+        ],
+        correct: 0,
+        explanation: {
+            correct: "Amazon MQ active/standby configuration provides broker failover while maintaining message order with persistence.",
+            whyWrong: {
+                1: "SQS Standard doesn't guarantee order",
+                2: "SNS doesn't provide ordering guarantees",
+                3: "Random partition keys break ordering in Kinesis"
+            },
+            examStrategy: "Amazon MQ for enterprise messaging patterns. Active/standby for HA with ordering. Know when to use managed vs native AWS."
+        }
+    },
+    {
+        id: 'res_069',
+        domain: "Domain 2: Design Resilient Architectures",
+        difficulty: "medium",
+        timeRecommendation: 120,
+        scenario: "A content delivery platform needs to ensure media files remain accessible even if the origin S3 bucket becomes unavailable.",
+        question: "Which configuration provides the BEST origin resilience?",
+        options: [
+            "CloudFront with origin failover to secondary S3 bucket in different region",
+            "S3 with Cross-Region Replication only",
+            "Multiple CloudFront distributions",
+            "S3 Transfer Acceleration"
+        ],
+        correct: 0,
+        explanation: {
+            correct: "CloudFront origin failover automatically switches to secondary origin when primary fails, maintaining availability.",
+            whyWrong: {
+                1: "CRR alone doesn't provide automatic failover",
+                2: "Multiple distributions increase complexity without automatic failover",
+                3: "Transfer Acceleration is for uploads, not availability"
+            },
+            examStrategy: "CloudFront origin failover for resilience. Secondary origins in different regions. Automatic failover over manual."
+        }
+    },
+    {
+        id: 'res_070',
+        domain: "Domain 2: Design Resilient Architectures",
+        difficulty: "easy",
+        timeRecommendation: 90,
+        scenario: "A company wants to ensure their RDS database can be quickly restored if corrupted by a bad application update.",
+        question: "Which RDS feature provides the fastest recovery from logical corruption?",
+        options: [
+            "Backtrack to rewind database to a point before corruption",
+            "Restore from automated backup",
+            "Read replica promotion",
+            "Multi-AZ failover"
+        ],
+        correct: 0,
+        explanation: {
+            correct: "Backtrack can rewind the database in minutes without creating a new instance, fastest recovery from logical errors.",
+            whyWrong: {
+                1: "Backup restore takes longer and creates new endpoint",
+                2: "Read replicas would have the same corruption",
+                3: "Multi-AZ protects against infrastructure failures, not logical corruption"
+            },
+            examStrategy: "Backtrack for Aurora logical corruption recovery. Know the difference: Multi-AZ for HA, backups for disaster, backtrack for mistakes."
+        }
+    },
+    {
+        id: 'res_071',
+        domain: "Domain 2: Design Resilient Architectures",
+        difficulty: "medium",
+        timeRecommendation: 120,
+        scenario: "A data pipeline needs to handle failures at any stage without losing data or requiring complete reprocessing.",
+        question: "Which architecture provides the BEST failure recovery for data pipelines?",
+        options: [
+            "Step Functions with retry logic and error handling at each state",
+            "Single Lambda function with all processing logic",
+            "EC2 with cron jobs and shell scripts",
+            "Glue jobs with sequential dependencies"
+        ],
+        correct: 0,
+        explanation: {
+            correct: "Step Functions provide state management, automatic retries, and error handling, allowing pipelines to resume from failure point.",
+            whyWrong: {
+                1: "Single Lambda has 15-minute limit and no state management",
+                2: "Cron jobs lack state management and error handling",
+                3: "Sequential Glue jobs require complete rerun on failure"
+            },
+            examStrategy: "Step Functions for complex workflows with error handling. State management crucial for pipeline resilience."
+        }
+    },
+    {
+        id: 'res_072',
+        domain: "Domain 2: Design Resilient Architectures",
+        difficulty: "hard",
+        timeRecommendation: 150,
+        scenario: "A global e-commerce platform needs to handle region-wide AWS outages without customer impact during Black Friday sales.",
+        question: "Which architecture provides complete regional failure immunity?",
+        options: [
+            "Active-active multi-region with Route 53 health checks and DynamoDB Global Tables",
+            "Active-passive with 5-minute RTO",
+            "Single region with multiple AZs",
+            "Hybrid cloud with AWS and another provider"
+        ],
+        correct: 0,
+        explanation: {
+            correct: "Active-active multi-region ensures continuous operation during regional failure with automatic traffic routing and data availability.",
+            whyWrong: {
+                1: "Active-passive has downtime during failover, unacceptable for Black Friday",
+                2: "Single region vulnerable to region-wide outages",
+                3: "Hybrid cloud adds complexity and may lack AWS service equivalents"
+            },
+            examStrategy: "Active-active for zero-downtime regional failover. Critical business events require maximum resilience investment."
+        }
+    },
+    {
+        id: 'res_073',
+        domain: "Domain 2: Design Resilient Architectures",
+        difficulty: "medium",
+        timeRecommendation: 120,
+        scenario: "A machine learning pipeline needs to handle model training failures without losing expensive computation progress.",
+        question: "Which approach provides the BEST resilience for long-running ML training?",
+        options: [
+            "SageMaker with checkpointing to S3 and Spot Instance management",
+            "EC2 with manual checkpoint scripts",
+            "Lambda functions for training",
+            "Batch processing without checkpoints"
+        ],
+        correct: 0,
+        explanation: {
+            correct: "SageMaker provides managed checkpointing and automatic recovery from Spot interruptions, preserving training progress.",
+            whyWrong: {
+                1: "Manual checkpointing is error-prone and lacks automation",
+                2: "Lambda 15-minute timeout unsuitable for ML training",
+                3: "No checkpoints means complete loss on failure"
+            },
+            examStrategy: "SageMaker for managed ML resilience. Checkpointing essential for long-running jobs. Managed services reduce operational burden."
+        }
+    },
+    {
+        id: 'res_074',
+        domain: "Domain 2: Design Resilient Architectures",
+        difficulty: "easy",
+        timeRecommendation: 90,
+        scenario: "A company needs to ensure their application logs are preserved even if EC2 instances are terminated.",
+        question: "How should logs be configured for persistence beyond instance lifecycle?",
+        options: [
+            "CloudWatch Logs agent streaming logs to CloudWatch",
+            "Local log files with large EBS volumes",
+            "Instance store for high-performance logging",
+            "Print logs to console only"
+        ],
+        correct: 0,
+        explanation: {
+            correct: "CloudWatch Logs agent streams logs to durable CloudWatch storage, surviving instance termination.",
+            whyWrong: {
+                1: "EBS volumes may be deleted with instance",
+                2: "Instance store is ephemeral, lost on termination",
+                3: "Console logs are not persisted"
+            },
+            examStrategy: "Externalize logs for persistence. CloudWatch Logs for centralized, durable logging. Never rely on instance storage for critical logs."
+        }
+    },
+    {
+        id: 'res_075',
+        domain: "Domain 2: Design Resilient Architectures",
+        difficulty: "medium",
+        timeRecommendation: 120,
+        scenario: "A real-time analytics platform needs to handle data source failures without losing streaming data.",
+        question: "Which streaming architecture provides the BEST resilience to source failures?",
+        options: [
+            "Kinesis Data Streams with extended retention and consumer checkpointing",
+            "Direct database writes from sources",
+            "SQS with standard queues",
+            "S3 with event notifications"
+        ],
+        correct: 0,
+        explanation: {
+            correct: "Kinesis Data Streams with extended retention buffers data during source failures, checkpointing allows replay from failure point.",
+            whyWrong: {
+                1: "Direct writes have no buffer during failures",
+                2: "SQS Standard has maximum 14-day retention",
+                3: "S3 events don't provide streaming semantics"
+            },
+            examStrategy: "Kinesis for streaming resilience. Extended retention for failure recovery. Checkpointing for exactly-once processing."
+        }
+    },
+    {
+        id: 'res_076',
+        domain: "Domain 2: Design Resilient Architectures",
+        difficulty: "hard",
+        timeRecommendation: 150,
+        scenario: "A mission-critical application requires the ability to instantly rollback infrastructure changes if performance degrades.",
+        question: "Which deployment strategy provides instant rollback capability with infrastructure changes?",
+        options: [
+            "Blue-green deployment with infrastructure as code and Route 53 weighted routing",
+            "Rolling deployment with Auto Scaling",
+            "Canary deployment with 10% traffic",
+            "In-place updates with backup AMIs"
+        ],
+        correct: 0,
+        explanation: {
+            correct: "Blue-green with Route 53 allows instant rollback by shifting traffic weights back to blue environment.",
+            whyWrong: {
+                1: "Rolling deployment requires rolling back through instances",
+                2: "Canary affects 10% of traffic before detection",
+                3: "In-place updates require redeployment for rollback"
+            },
+            examStrategy: "Blue-green for instant rollback capability. Infrastructure as code for reproducible environments. DNS for traffic control."
+        }
+    },
+    {
+        id: 'res_077',
+        domain: "Domain 2: Design Resilient Architectures",
+        difficulty: "medium",
+        timeRecommendation: 120,
+        scenario: "A company needs to ensure their containerized microservices can recover from node failures in their Kubernetes cluster.",
+        question: "Which EKS configuration provides automatic recovery from node failures?",
+        options: [
+            "Managed node groups with multiple AZs and cluster autoscaler",
+            "Single large node for all pods",
+            "Spot instances only for cost savings",
+            "Manual node management with fixed capacity"
+        ],
+        correct: 0,
+        explanation: {
+            correct: "Managed node groups handle node failures automatically, multi-AZ provides redundancy, autoscaler maintains capacity.",
+            whyWrong: {
+                1: "Single node is a single point of failure",
+                2: "Spot-only risks availability during shortages",
+                3: "Manual management delays recovery"
+            },
+            examStrategy: "Managed node groups for operational simplicity. Multi-AZ for node redundancy. Automation over manual management."
+        }
+    },
+    {
+        id: 'res_078',
+        domain: "Domain 2: Design Resilient Architectures",
+        difficulty: "easy",
+        timeRecommendation: 90,
+        scenario: "A startup needs to protect against accidental deletion of their CloudFormation stacks.",
+        question: "Which feature prevents accidental stack deletion?",
+        options: [
+            "Enable termination protection on the stack",
+            "Use change sets for all updates",
+            "Export all stack outputs",
+            "Create stack policies"
+        ],
+        correct: 0,
+        explanation: {
+            correct: "Termination protection prevents stack deletion until explicitly disabled, protecting against accidents.",
+            whyWrong: {
+                1: "Change sets preview updates but don't prevent deletion",
+                2: "Exports create dependencies but don't prevent deletion",
+                3: "Stack policies control updates, not deletion"
+            },
+            examStrategy: "Termination protection for critical stacks. Simple but effective protection. Enable for production resources."
+        }
+    },
+    {
+        id: 'res_079',
+        domain: "Domain 2: Design Resilient Architectures",
+        difficulty: "medium",
+        timeRecommendation: 120,
+        scenario: "An event-driven architecture needs to handle poison messages that repeatedly fail processing.",
+        question: "Which pattern best handles poison messages in event-driven systems?",
+        options: [
+            "Dead letter queues with maximum receive count and alerting",
+            "Infinite retries until success",
+            "Discard failed messages immediately",
+            "Manual intervention for each failure"
+        ],
+        correct: 0,
+        explanation: {
+            correct: "DLQs isolate poison messages after maximum attempts, preventing system blockage while preserving messages for analysis.",
+            whyWrong: {
+                1: "Infinite retries block processing of valid messages",
+                2: "Discarding loses potentially valuable data",
+                3: "Manual intervention doesn't scale"
+            },
+            examStrategy: "DLQ pattern for poison message handling. Configure appropriate retry limits. Monitor and alert on DLQ messages."
+        }
+    },
+    {
+        id: 'res_080',
+        domain: "Domain 2: Design Resilient Architectures",
+        difficulty: "hard",
+        timeRecommendation: 150,
+        scenario: "A financial services platform needs to maintain ACID compliance across distributed microservices during partial failures.",
+        question: "Which pattern ensures distributed transaction consistency with failure handling?",
+        options: [
+            "Saga pattern with compensating transactions and Step Functions orchestration",
+            "Two-phase commit across all services",
+            "Eventually consistent with no coordination",
+            "Single database for all services"
+        ],
+        correct: 0,
+        explanation: {
+            correct: "Saga pattern with compensating transactions handles distributed transactions with failure recovery while avoiding distributed locks.",
+            whyWrong: {
+                1: "Two-phase commit doesn't scale and increases failure coupling",
+                2: "No coordination loses ACID properties",
+                3: "Single database creates bottleneck and coupling"
+            },
+            examStrategy: "Saga pattern for distributed transactions. Compensating transactions for rollback. Step Functions for orchestration."
+        }
+    },
+    {
+        id: 'res_081',
+        domain: "Domain 2: Design Resilient Architectures",
+        difficulty: "medium",
+        timeRecommendation: 120,
+        scenario: "A media company needs to ensure their live streaming platform remains available during encoder failures.",
+        question: "Which architecture provides resilience for live streaming?",
+        options: [
+            "MediaLive with automatic input failover and dual pipeline configuration",
+            "Single encoder with high reliability",
+            "Multiple encoders to single endpoint",
+            "Recording streams for later playback"
+        ],
+        correct: 0,
+        explanation: {
+            correct: "MediaLive automatic input failover switches between encoders seamlessly, dual pipelines provide redundancy.",
+            whyWrong: {
+                1: "Single encoder is single point of failure",
+                2: "Multiple encoders to single endpoint lack coordination",
+                3: "Recording doesn't solve live streaming availability"
+            },
+            examStrategy: "MediaLive for managed streaming resilience. Automatic failover for seamless switching. Dual pipeline for redundancy."
+        }
+    },
+    {
+        id: 'res_082',
+        domain: "Domain 2: Design Resilient Architectures",
+        difficulty: "easy",
+        timeRecommendation: 90,
+        scenario: "A company needs to ensure their Auto Scaling group always maintains minimum capacity even during instance failures.",
+        question: "Which Auto Scaling feature automatically replaces failed instances?",
+        options: [
+            "Health checks with automatic replacement",
+            "Manual instance monitoring",
+            "Scheduled scaling actions",
+            "Predictive scaling"
+        ],
+        correct: 0,
+        explanation: {
+            correct: "Health checks automatically detect and replace unhealthy instances to maintain desired capacity.",
+            whyWrong: {
+                1: "Manual monitoring requires human intervention",
+                2: "Scheduled scaling is time-based, not failure-based",
+                3: "Predictive scaling is for capacity planning, not failure recovery"
+            },
+            examStrategy: "Health checks for automatic recovery. EC2 and ELB health check types. Automatic better than manual intervention."
+        }
+    },
+    {
+        id: 'res_083',
+        domain: "Domain 2: Design Resilient Architectures",
+        difficulty: "medium",
+        timeRecommendation: 120,
+        scenario: "A logistics platform needs to ensure GPS tracking data from vehicles is never lost even during network outages.",
+        question: "Which architecture ensures no data loss during connectivity issues?",
+        options: [
+            "Edge computing with AWS IoT Greengrass and local storage with sync when connected",
+            "Direct API calls with retries",
+            "Cellular backup connections only",
+            "Batch uploads every hour"
+        ],
+        correct: 0,
+        explanation: {
+            correct: "IoT Greengrass provides edge computing with local storage, ensuring data persists locally and syncs when connectivity returns.",
+            whyWrong: {
+                1: "API calls fail without connectivity regardless of retries",
+                2: "Cellular backup might also fail in remote areas",
+                3: "Batch uploads lose data if device fails before upload"
+            },
+            examStrategy: "Edge computing for offline resilience. Local storage with eventual sync. IoT Greengrass for edge scenarios."
+        }
+    },
+    {
+        id: 'res_084',
+        domain: "Domain 2: Design Resilient Architectures",
+        difficulty: "hard",
+        timeRecommendation: 150,
+        scenario: "A global social network needs to handle cascading cache failures during viral events without overwhelming databases.",
+        question: "Which caching strategy prevents cascade failures during cache invalidation?",
+        options: [
+            "Cache warming with probabilistic early expiration and request coalescing",
+            "Simple TTL-based expiration",
+            "No caching to avoid complexity",
+            "Infinite cache duration"
+        ],
+        correct: 0,
+        explanation: {
+            correct: "Probabilistic early expiration spreads refresh load, request coalescing prevents thundering herd on cache misses.",
+            whyWrong: {
+                1: "Simple TTL causes synchronized expiration and thundering herd",
+                2: "No caching overwhelms database constantly",
+                3: "Infinite cache serves stale data"
+            },
+            examStrategy: "Advanced caching patterns for scale. Probabilistic expiration prevents synchronization. Request coalescing for thundering herd."
+        }
+    },
+    {
+        id: 'res_085',
+        domain: "Domain 2: Design Resilient Architectures",
+        difficulty: "medium",
+        timeRecommendation: 120,
+        scenario: "A company needs to ensure their data lake remains queryable even if primary metadata catalog becomes unavailable.",
+        question: "Which architecture provides metadata catalog resilience?",
+        options: [
+            "AWS Glue Data Catalog with catalog replication to backup region",
+            "Manual schema documentation",
+            "Embedded metadata in file names",
+            "Single Hive metastore"
+        ],
+        correct: 0,
+        explanation: {
+            correct: "Glue Data Catalog replication provides metadata redundancy, ensuring queries can continue using backup catalog.",
+            whyWrong: {
+                1: "Manual documentation doesn't integrate with query engines",
+                2: "File name metadata is limited and hard to query",
+                3: "Single Hive metastore is single point of failure"
+            },
+            examStrategy: "Glue Data Catalog for managed metadata. Replication for catalog resilience. Metadata as critical as data."
+        }
+    },
+    {
+        id: 'res_086',
+        domain: "Domain 2: Design Resilient Architectures",
+        difficulty: "easy",
+        timeRecommendation: 90,
+        scenario: "A web application needs to continue serving traffic even if some backend services are slow or unavailable.",
+        question: "Which pattern prevents slow services from affecting overall availability?",
+        options: [
+            "Timeout and circuit breaker patterns",
+            "Unlimited wait times for responses",
+            "Synchronous calls to all services",
+            "Retry indefinitely until success"
+        ],
+        correct: 0,
+        explanation: {
+            correct: "Timeouts prevent indefinite waiting, circuit breakers prevent calling failed services, maintaining overall availability.",
+            whyWrong: {
+                1: "Unlimited waits cause resource exhaustion",
+                2: "Synchronous calls create tight coupling",
+                3: "Indefinite retries waste resources and delay responses"
+            },
+            examStrategy: "Timeouts for preventing hangs. Circuit breakers for failing fast. Defensive programming for resilience."
+        }
+    },
+    {
+        id: 'res_087',
+        domain: "Domain 2: Design Resilient Architectures",
+        difficulty: "medium",
+        timeRecommendation: 120,
+        scenario: "A company needs to ensure their serverless application can handle Lambda service limits and throttling.",
+        question: "Which approach provides the BEST resilience to Lambda throttling?",
+        options: [
+            "SQS with Lambda event source mapping and reserved concurrency",
+            "Direct invocation with exponential backoff",
+            "Increase service limits to maximum",
+            "Synchronous invocation with retries"
+        ],
+        correct: 0,
+        explanation: {
+            correct: "SQS buffers requests during throttling, event source mapping automatically retries, reserved concurrency prevents throttling.",
+            whyWrong: {
+                1: "Direct invocation fails immediately when throttled",
+                2: "Service limits are not infinite",
+                3: "Synchronous retries add latency and may still fail"
+            },
+            examStrategy: "SQS for buffering and decoupling. Reserved concurrency for guaranteed capacity. Async patterns for resilience."
+        }
+    },
+    {
+        id: 'res_088',
+        domain: "Domain 2: Design Resilient Architectures",
+        difficulty: "hard",
+        timeRecommendation: 150,
+        scenario: "A cryptocurrency exchange needs to maintain order matching engine availability during component failures without trade duplication.",
+        question: "Which architecture ensures exactly-once trade execution with high availability?",
+        options: [
+            "Primary-secondary with consensus protocol and idempotent trade processing",
+            "Single highly available server",
+            "Load balanced stateless servers",
+            "Eventually consistent multi-master"
+        ],
+        correct: 0,
+        explanation: {
+            correct: "Primary-secondary with consensus ensures single writer, idempotent processing prevents duplicates during failover.",
+            whyWrong: {
+                1: "Single server is single point of failure",
+                2: "Stateless servers can't maintain order book consistency",
+                3: "Multi-master risks trade duplication"
+            },
+            examStrategy: "Consensus protocols for consistency. Idempotent operations for exactly-once. Primary-secondary for ordered operations."
+        }
+    },
+    {
+        id: 'res_089',
+        domain: "Domain 2: Design Resilient Architectures",
+        difficulty: "medium",
+        timeRecommendation: 120,
+        scenario: "A company needs to ensure their CI/CD pipeline continues deploying even if individual test stages fail.",
+        question: "Which pipeline pattern allows continuation despite stage failures?",
+        options: [
+            "CodePipeline with parallel actions and failure mode configuration",
+            "Sequential stages with stop on failure",
+            "Manual approval for each stage",
+            "Single monolithic deployment script"
+        ],
+        correct: 0,
+        explanation: {
+            correct: "Parallel actions allow independent execution, failure mode configuration enables pipeline continuation for non-critical failures.",
+            whyWrong: {
+                1: "Sequential with stop prevents any continuation",
+                2: "Manual approval adds delays and human bottleneck",
+                3: "Monolithic script fails entirely on any error"
+            },
+            examStrategy: "Parallel execution for independence. Configure failure modes appropriately. Balance safety with availability."
+        }
+    },
+    {
+        id: 'res_090',
+        domain: "Domain 2: Design Resilient Architectures",
+        difficulty: "easy",
+        timeRecommendation: 90,
+        scenario: "A company needs to ensure their application can recover quickly from bad deployments.",
+        question: "Which deployment feature enables fastest recovery from bad deployments?",
+        options: [
+            "Automatic rollback on CloudWatch alarm triggers",
+            "Manual monitoring and rollback",
+            "Deploy only during business hours",
+            "Extensive pre-production testing only"
+        ],
+        correct: 0,
+        explanation: {
+            correct: "Automatic rollback triggered by CloudWatch alarms provides fastest recovery without human intervention.",
+            whyWrong: {
+                1: "Manual processes are slower and error-prone",
+                2: "Deployment timing doesn't prevent bad deployments",
+                3: "Testing alone doesn't help with recovery speed"
+            },
+            examStrategy: "Automatic rollback for fast recovery. CloudWatch alarms for deployment monitoring. Automation over manual processes."
+        }
+    },
+    {
+        id: 'res_091',
+        domain: "Domain 2: Design Resilient Architectures",
+        difficulty: "medium",
+        timeRecommendation: 120,
+        scenario: "A gaming platform needs to handle player disconnections and reconnections without losing game state.",
+        question: "Which architecture best handles connection resilience in gaming?",
+        options: [
+            "WebSocket with connection state in ElastiCache and automatic reconnection",
+            "HTTP polling only",
+            "Direct TCP connections without state management",
+            "Stateless REST APIs only"
+        ],
+        correct: 0,
+        explanation: {
+            correct: "WebSocket provides real-time communication, ElastiCache preserves state across disconnections, enabling seamless reconnection.",
+            whyWrong: {
+                1: "HTTP polling has high latency for gaming",
+                2: "No state management loses game progress",
+                3: "Stateless REST inappropriate for real-time gaming"
+            },
+            examStrategy: "WebSocket for real-time communication. External state store for connection resilience. Plan for disconnection from start."
+        }
+    },
+    {
+        id: 'res_092',
+        domain: "Domain 2: Design Resilient Architectures",
+        difficulty: "hard",
+        timeRecommendation: 150,
+        scenario: "A fintech platform needs to ensure payment processing continues even during a complete AWS region failure with zero transaction loss.",
+        question: "Which architecture guarantees zero transaction loss during regional failure?",
+        options: [
+            "Multi-region active-active with synchronous replication and distributed consensus",
+            "Single region with hourly backups",
+            "Active-passive with asynchronous replication",
+            "Hybrid cloud with eventual consistency"
+        ],
+        correct: 0,
+        explanation: {
+            correct: "Synchronous replication ensures zero data loss, distributed consensus maintains consistency during regional failure.",
+            whyWrong: {
+                1: "Hourly backups lose up to 1 hour of transactions",
+                2: "Asynchronous replication can lose in-flight transactions",
+                3: "Eventual consistency may lose or duplicate transactions"
+            },
+            examStrategy: "Synchronous replication for zero data loss. Distributed consensus for split-brain prevention. Cost vs RPO tradeoff."
+        }
+    },
+    {
+        id: 'res_093',
+        domain: "Domain 2: Design Resilient Architectures",
+        difficulty: "medium",
+        timeRecommendation: 120,
+        scenario: "A video processing pipeline needs to handle corrupt input files without stopping the entire pipeline.",
+        question: "Which error handling approach provides the best pipeline resilience?",
+        options: [
+            "Try-catch blocks with file quarantine and continue processing",
+            "Fail entire pipeline on first error",
+            "Skip error checking for performance",
+            "Manual review of each file"
+        ],
+        correct: 0,
+        explanation: {
+            correct: "Try-catch with quarantine isolates bad files while allowing pipeline continuation for valid files.",
+            whyWrong: {
+                1: "Failing entirely stops all processing unnecessarily",
+                2: "No error checking causes downstream failures",
+                3: "Manual review doesn't scale"
+            },
+            examStrategy: "Graceful error handling for pipeline resilience. Quarantine pattern for bad data. Continue processing valid items."
+        }
+    },
+    {
+        id: 'res_094',
+        domain: "Domain 2: Design Resilient Architectures",
+        difficulty: "easy",
+        timeRecommendation: 90,
+        scenario: "A company wants to test their disaster recovery procedures without impacting production.",
+        question: "How should DR testing be performed safely?",
+        options: [
+            "Use isolated recovery environment with traffic simulation",
+            "Failover production during quiet periods",
+            "Test individual components in production",
+            "Document procedures without testing"
+        ],
+        correct: 0,
+        explanation: {
+            correct: "Isolated recovery environment allows full DR testing without any production impact.",
+            whyWrong: {
+                1: "Production failover risks actual outages",
+                2: "Component testing doesn't validate full DR",
+                3: "Untested procedures likely fail when needed"
+            },
+            examStrategy: "Test DR regularly in isolation. Full environment testing over component testing. Never test first time in production."
+        }
+    },
+    {
+        id: 'res_095',
+        domain: "Domain 2: Design Resilient Architectures",
+        difficulty: "medium",
+        timeRecommendation: 120,
+        scenario: "An e-learning platform needs to handle exam submissions even if the main database is temporarily unavailable.",
+        question: "Which pattern ensures exam submissions are never lost?",
+        options: [
+            "Queue submissions in SQS with database writer consumer",
+            "Direct database writes with retries",
+            "Cache submissions in browser only",
+            "Reject submissions during outages"
+        ],
+        correct: 0,
+        explanation: {
+            correct: "SQS durably stores submissions across multiple AZs, writer processes them when database recovers.",
+            whyWrong: {
+                1: "Direct writes fail during database outages",
+                2: "Browser cache unreliable and lost on close",
+                3: "Rejecting submissions provides poor user experience"
+            },
+            examStrategy: "Queue for durability during outages. Decouple submission from processing. SQS for reliable message delivery."
+        }
+    },
+    {
+        id: 'res_096',
+        domain: "Domain 2: Design Resilient Architectures",
+        difficulty: "hard",
+        timeRecommendation: 150,
+        scenario: "A telemetry system for autonomous vehicles needs to maintain operations even with 3 simultaneous component failures.",
+        question: "Which architecture survives 3 simultaneous component failures?",
+        options: [
+            "N+3 redundancy with automatic failover and diverse failure domains",
+            "Primary-secondary configuration",
+            "Triple redundancy only",
+            "Single highly reliable component"
+        ],
+        correct: 0,
+        explanation: {
+            correct: "N+3 redundancy ensures capacity after 3 failures, diverse failure domains prevent correlated failures.",
+            whyWrong: {
+                1: "Primary-secondary only handles 1 failure",
+                2: "Triple redundancy fails if all 3 fail",
+                3: "Single component has no redundancy"
+            },
+            examStrategy: "N+K redundancy for K simultaneous failures. Diverse failure domains prevent correlation. Over-provision for critical systems."
+        }
+    },
+    {
+        id: 'res_097',
+        domain: "Domain 2: Design Resilient Architectures",
+        difficulty: "medium",
+        timeRecommendation: 120,
+        scenario: "A news aggregation service needs to handle failures of individual news source APIs without affecting the overall service.",
+        question: "Which pattern provides resilience to individual API failures?",
+        options: [
+            "Async fetching with timeout per source and partial result aggregation",
+            "Sequential API calls with stop on first failure",
+            "Wait for all sources before displaying",
+            "Only use most reliable source"
+        ],
+        correct: 0,
+        explanation: {
+            correct: "Async fetching allows parallel processing, timeouts prevent hanging, partial aggregation shows available content.",
+            whyWrong: {
+                1: "Sequential failing stops all processing on first error",
+                2: "Waiting for all sources delays results unnecessarily",
+                3: "Single source eliminates aggregation value"
+            },
+            examStrategy: "Async patterns for independent failures. Partial results better than no results. Timeout everything external."
+        }
+    },
+    {
+        id: 'res_098',
+        domain: "Domain 2: Design Resilient Architectures",
+        difficulty: "easy",
+        timeRecommendation: 90,
+        scenario: "A company needs to protect their Elastic Load Balancer from being accidentally deleted.",
+        question: "Which feature prevents accidental ELB deletion?",
+        options: [
+            "Deletion protection attribute on the load balancer",
+            "Complex naming conventions",
+            "IAM policies only",
+            "Multiple load balancers"
+        ],
+        correct: 0,
+        explanation: {
+            correct: "Deletion protection attribute must be explicitly disabled before deletion, preventing accidents.",
+            whyWrong: {
+                1: "Naming doesn't prevent deletion",
+                2: "IAM policies can be overridden by admins",
+                3: "Multiple load balancers don't prevent individual deletion"
+            },
+            examStrategy: "Enable deletion protection for critical resources. Simple attribute prevents costly mistakes. Defense in depth with IAM."
+        }
+    },
+    {
+        id: 'res_099',
+        domain: "Domain 2: Design Resilient Architectures",
+        difficulty: "medium",
+        timeRecommendation: 120,
+        scenario: "A batch processing system needs to handle partial failures in large batch jobs without reprocessing successful items.",
+        question: "Which approach provides efficient partial failure handling?",
+        options: [
+            "Checkpoint completed items in DynamoDB with idempotent processing",
+            "Always reprocess entire batch",
+            "Fail entire batch on any error",
+            "No error handling"
+        ],
+        correct: 0,
+        explanation: {
+            correct: "Checkpointing tracks completed items, idempotent processing allows safe retry of failed items only.",
+            whyWrong: {
+                1: "Full reprocessing wastes resources",
+                2: "Failing entire batch loses successful work",
+                3: "No error handling causes data inconsistency"
+            },
+            examStrategy: "Checkpoint progress for partial failure recovery. Idempotent operations for safe retry. Fine-grained processing over batch."
+        }
+    },
+    {
+        id: 'res_100',
+        domain: "Domain 2: Design Resilient Architectures",
+        difficulty: "hard",
+        timeRecommendation: 150,
+        scenario: "A global CDN needs to handle origin failures, network partitions, and cache poisoning attacks while serving 100TB of content.",
+        question: "Which architecture provides comprehensive CDN resilience?",
+        options: [
+            "CloudFront with origin failover, Origin Shield, and WAF with signed URLs",
+            "Single CloudFront distribution with one origin",
+            "Multiple regional CDNs without coordination",
+            "Direct serving from S3 only"
+        ],
+        correct: 0,
+        explanation: {
+            correct: "Origin failover handles failures, Origin Shield protects origins, WAF prevents attacks, signed URLs prevent unauthorized access.",
+            whyWrong: {
+                1: "Single origin is single point of failure",
+                2: "Uncoordinated CDNs increase complexity without benefit",
+                3: "Direct S3 lacks global performance and protection"
+            },
+            examStrategy: "Layer CDN protections: failover for availability, Shield for origin protection, WAF for security. Comprehensive resilience strategy."
+        }
     }
-
 ],
         
     // Domain 3: Design High-Performing Architectures (120 questions - 24%)

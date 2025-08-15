@@ -6022,7 +6022,9 @@ const questionBank = {
             },
             examStrategy: "ParallelCluster for HPC workloads. FSx Lustre for HPC storage. EFA for MPI performance. Scale-out for PB processing."
         }
-    },    
+    }
+
+   ],
 
     // Domain 4: Design Cost-Optimized Architectures (100 questions - 20%)
     cost: [

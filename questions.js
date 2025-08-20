@@ -12005,5 +12005,7 @@ const questionBank = {
         },
         "examStrategy": "Cloud-native architecture for cost optimization. Leverage auto-scaling and serverless. Managed services reduce TCO."
       }
-    }
-];
+   }
+      ]
+};
+    

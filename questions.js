@@ -12034,30 +12034,30 @@ const questionBank = {
       ]
 }; 
 
-// Randomize answer positions to fix the problem where correct answer is always position 0
+// Check how many need fixing per category
+['security', 'resilience', 'performance', 'cost'].forEach(category => {
+    const needsFix = questionBank[category].filter(q => q.correct === 0 && !Array.isArray(q.correct)).length;
+    const alreadyOK = questionBank[category].filter(q => q.correct !== 0 || Array.isArray(q.correct)).length;
+    console.log(`${category}: ${needsFix} need fixing, ${alreadyOK} already OK`);
+});
+
+// Define the randomize function
 function randomizeQuestionBankAnswers(questions) {
     return questions.map(question => {
-        // Skip if already randomized or has multiple correct answers
         if (question.correct !== 0 || Array.isArray(question.correct)) {
             return question;
         }
         
-        // Create array of indices [0, 1, 2, 3]
         const indices = Array.from({length: question.options.length}, (_, i) => i);
         
-        // Shuffle indices
         for (let i = indices.length - 1; i > 0; i--) {
             const j = Math.floor(Math.random() * (i + 1));
             [indices[i], indices[j]] = [indices[j], indices[i]];
         }
         
-        // Reorder options based on shuffled indices
         const newOptions = indices.map(i => question.options[i]);
-        
-        // Find where the correct answer moved to
         const newCorrectIndex = indices.indexOf(0);
         
-        // Update explanation's whyWrong indices if it exists
         let newExplanation = {...question.explanation};
         if (newExplanation.whyWrong) {
             const newWhyWrong = {};
@@ -12080,8 +12080,18 @@ function randomizeQuestionBankAnswers(questions) {
     });
 }
 
-// Apply the randomization to fix all questions
-window.questionBank = randomizeQuestionBankAnswers(window.questionBank);
+// Fix all categories
+const fixedQuestionBank = {
+    security: randomizeQuestionBankAnswers(questionBank.security),
+    resilience: randomizeQuestionBankAnswers(questionBank.resilience),
+    performance: randomizeQuestionBankAnswers(questionBank.performance),
+    cost: randomizeQuestionBankAnswers(questionBank.cost)
+};
+
+// Copy to clipboard
+copy(fixedQuestionBank);
+console.log('✅ Fixed all 500 questions across all categories! Copied to clipboard.');
+console.log('Replace your entire questionBank object with what\'s in your clipboard.');
 
 // Update the statistics
 const totalQuestions = 

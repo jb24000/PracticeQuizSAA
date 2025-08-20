@@ -12034,7 +12034,7 @@ const questionBank = {
       ]
 }; 
 
-// STEP 1: First verify the fix will work
+// Run this ENTIRE block in the browser console
 function randomizeQuestionBankAnswers(questions) {
     return questions.map(question => {
         if (question.correct !== 0 || Array.isArray(question.correct)) {
@@ -12073,7 +12073,7 @@ function randomizeQuestionBankAnswers(questions) {
     });
 }
 
-// STEP 2: Create the fixed version
+// Create fixed version
 const fixedQuestionBank = {
     security: randomizeQuestionBankAnswers(questionBank.security),
     resilience: randomizeQuestionBankAnswers(questionBank.resilience),
@@ -12081,25 +12081,14 @@ const fixedQuestionBank = {
     cost: randomizeQuestionBankAnswers(questionBank.cost)
 };
 
-// STEP 3: Test the fixed version BEFORE copying
-console.log('TESTING FIXED VERSION:');
-['security', 'resilience', 'performance', 'cost'].forEach(category => {
-    const questions = fixedQuestionBank[category];
-    const position0 = questions.filter(q => q.correct === 0).length;
-    console.log(`${category}: ${position0} at position 0 (should be ~31 if randomized)`);
-});
+// Copy to clipboard with proper formatting
+copy(`const questionBank = ${JSON.stringify(fixedQuestionBank, null, 2)}`);
 
-// STEP 4: If it looks good, copy it
-const allFixed = [...fixedQuestionBank.security, ...fixedQuestionBank.resilience, ...fixedQuestionBank.performance, ...fixedQuestionBank.cost];
-const fixedPosition0 = allFixed.filter(q => q.correct === 0).length;
-
-if (fixedPosition0 < 200) {
-    copy(`const questionBank = ${JSON.stringify(fixedQuestionBank, null, 2)}`);
-    console.log('✅ SUCCESS! Fixed questionBank copied to clipboard.');
-    console.log('Now: Open your questions.js file, SELECT ALL (Ctrl+A), and PASTE (Ctrl+V)');
-} else {
-    console.log('❌ Something went wrong with the randomization');
-}
+console.log('✅ COPIED! Now:');
+console.log('1. Open questions.js');
+console.log('2. Select ALL (Ctrl+A)');
+console.log('3. PASTE (Ctrl+V)');
+console.log('4. SAVE the file');
 // Update the statistics
 const totalQuestions = 
     questionBank.security.length + 

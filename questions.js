@@ -12034,31 +12034,62 @@ const questionBank = {
       ]
 }; 
 
-// Create fixed version
-const fixedBank = {
+// Check current state first
+const beforeFix = [...questionBank.security, ...questionBank.resilience, ...questionBank.performance, ...questionBank.cost];
+console.log('BEFORE: Position 0:', beforeFix.filter(q => q.correct === 0).length);
+
+// Apply randomization
+function randomizeQuestionBankAnswers(questions) {
+    return questions.map(question => {
+        if (question.correct !== 0 || Array.isArray(question.correct)) {
+            return question;
+        }
+        const indices = Array.from({length: question.options.length}, (_, i) => i);
+        for (let i = indices.length - 1; i > 0; i--) {
+            const j = Math.floor(Math.random() * (i + 1));
+            [indices[i], indices[j]] = [indices[j], indices[i]];
+        }
+        const newOptions = indices.map(i => question.options[i]);
+        const newCorrectIndex = indices.indexOf(0);
+        let newExplanation = {...question.explanation};
+        if (newExplanation.whyWrong) {
+            const newWhyWrong = {};
+            Object.entries(newExplanation.whyWrong).forEach(([key, value]) => {
+                const oldIndex = parseInt(key);
+                const newIndex = indices.indexOf(oldIndex);
+                if (newIndex !== newCorrectIndex) {
+                    newWhyWrong[newIndex] = value;
+                }
+            });
+            newExplanation.whyWrong = newWhyWrong;
+        }
+        return {
+            ...question,
+            options: newOptions,
+            correct: newCorrectIndex,
+            explanation: newExplanation
+        };
+    });
+}
+
+// Create and copy fixed version
+const fixed = {
     security: randomizeQuestionBankAnswers(questionBank.security),
     resilience: randomizeQuestionBankAnswers(questionBank.resilience),
     performance: randomizeQuestionBankAnswers(questionBank.performance),
     cost: randomizeQuestionBankAnswers(questionBank.cost)
 };
 
-// Verify it worked
-const testAll = [...fixedBank.security, ...fixedBank.resilience, ...fixedBank.performance, ...fixedBank.cost];
-console.log('Fixed distribution:');
-console.log('Position 0:', testAll.filter(q => q.correct === 0).length);
-console.log('Position 1:', testAll.filter(q => q.correct === 1).length);
-console.log('Position 2:', testAll.filter(q => q.correct === 2).length);
-console.log('Position 3:', testAll.filter(q => q.correct === 3).length);
+copy(`const questionBank = ${JSON.stringify(fixed, null, 2)}`);
 
-// Copy to clipboard
-copy(`const questionBank = ${JSON.stringify(fixedBank, null, 2)}`);
-console.log('\n✅ FIXED VERSION IS NOW IN YOUR CLIPBOARD!');
-console.log('\n📝 FINAL STEPS:');
-console.log('1. Open questions.js in Notepad++ or VS Code');
-console.log('2. Select ALL text (Ctrl+A)');
-console.log('3. PASTE (Ctrl+V)');
-console.log('4. SAVE (Ctrl+S)');
-console.log('5. Refresh this browser page');
+const afterFix = [...fixed.security, ...fixed.resilience, ...fixed.performance, ...fixed.cost];
+console.log('AFTER: Position 0:', afterFix.filter(q => q.correct === 0).length);
+console.log('\n✅ Fixed version copied! Now:');
+console.log('1. Open questions.js');
+console.log('2. Select ALL (Ctrl+A)');
+console.log('3. Paste (Ctrl+V)');
+console.log('4. Save (Ctrl+S)');
+
 // Update the statistics
 const totalQuestions = 
     questionBank.security.length + 

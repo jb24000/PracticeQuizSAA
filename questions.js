@@ -12034,61 +12034,6 @@ const questionBank = {
       ]
 }; 
 
-// Check current state first
-const beforeFix = [...questionBank.security, ...questionBank.resilience, ...questionBank.performance, ...questionBank.cost];
-console.log('BEFORE: Position 0:', beforeFix.filter(q => q.correct === 0).length);
-
-// Apply randomization
-function randomizeQuestionBankAnswers(questions) {
-    return questions.map(question => {
-        if (question.correct !== 0 || Array.isArray(question.correct)) {
-            return question;
-        }
-        const indices = Array.from({length: question.options.length}, (_, i) => i);
-        for (let i = indices.length - 1; i > 0; i--) {
-            const j = Math.floor(Math.random() * (i + 1));
-            [indices[i], indices[j]] = [indices[j], indices[i]];
-        }
-        const newOptions = indices.map(i => question.options[i]);
-        const newCorrectIndex = indices.indexOf(0);
-        let newExplanation = {...question.explanation};
-        if (newExplanation.whyWrong) {
-            const newWhyWrong = {};
-            Object.entries(newExplanation.whyWrong).forEach(([key, value]) => {
-                const oldIndex = parseInt(key);
-                const newIndex = indices.indexOf(oldIndex);
-                if (newIndex !== newCorrectIndex) {
-                    newWhyWrong[newIndex] = value;
-                }
-            });
-            newExplanation.whyWrong = newWhyWrong;
-        }
-        return {
-            ...question,
-            options: newOptions,
-            correct: newCorrectIndex,
-            explanation: newExplanation
-        };
-    });
-}
-
-// Create and copy fixed version
-const fixed = {
-    security: randomizeQuestionBankAnswers(questionBank.security),
-    resilience: randomizeQuestionBankAnswers(questionBank.resilience),
-    performance: randomizeQuestionBankAnswers(questionBank.performance),
-    cost: randomizeQuestionBankAnswers(questionBank.cost)
-};
-
-copy(`const questionBank = ${JSON.stringify(fixed, null, 2)}`);
-
-const afterFix = [...fixed.security, ...fixed.resilience, ...fixed.performance, ...fixed.cost];
-console.log('AFTER: Position 0:', afterFix.filter(q => q.correct === 0).length);
-console.log('\n✅ Fixed version copied! Now:');
-console.log('1. Open questions.js');
-console.log('2. Select ALL (Ctrl+A)');
-console.log('3. Paste (Ctrl+V)');
-console.log('4. Save (Ctrl+S)');
 
 // Update the statistics
 const totalQuestions = 

@@ -12034,14 +12034,7 @@ const questionBank = {
       ]
 }; 
 
-// Check how many need fixing per category
-['security', 'resilience', 'performance', 'cost'].forEach(category => {
-    const needsFix = questionBank[category].filter(q => q.correct === 0 && !Array.isArray(q.correct)).length;
-    const alreadyOK = questionBank[category].filter(q => q.correct !== 0 || Array.isArray(q.correct)).length;
-    console.log(`${category}: ${needsFix} need fixing, ${alreadyOK} already OK`);
-});
-
-// Define the randomize function
+// STEP 1: First verify the fix will work
 function randomizeQuestionBankAnswers(questions) {
     return questions.map(question => {
         if (question.correct !== 0 || Array.isArray(question.correct)) {
@@ -12080,7 +12073,7 @@ function randomizeQuestionBankAnswers(questions) {
     });
 }
 
-// Fix all categories
+// STEP 2: Create the fixed version
 const fixedQuestionBank = {
     security: randomizeQuestionBankAnswers(questionBank.security),
     resilience: randomizeQuestionBankAnswers(questionBank.resilience),
@@ -12088,11 +12081,25 @@ const fixedQuestionBank = {
     cost: randomizeQuestionBankAnswers(questionBank.cost)
 };
 
-// Copy to clipboard
-copy(fixedQuestionBank);
-console.log('✅ Fixed all 500 questions across all categories! Copied to clipboard.');
-console.log('Replace your entire questionBank object with what\'s in your clipboard.');
+// STEP 3: Test the fixed version BEFORE copying
+console.log('TESTING FIXED VERSION:');
+['security', 'resilience', 'performance', 'cost'].forEach(category => {
+    const questions = fixedQuestionBank[category];
+    const position0 = questions.filter(q => q.correct === 0).length;
+    console.log(`${category}: ${position0} at position 0 (should be ~31 if randomized)`);
+});
 
+// STEP 4: If it looks good, copy it
+const allFixed = [...fixedQuestionBank.security, ...fixedQuestionBank.resilience, ...fixedQuestionBank.performance, ...fixedQuestionBank.cost];
+const fixedPosition0 = allFixed.filter(q => q.correct === 0).length;
+
+if (fixedPosition0 < 200) {
+    copy(`const questionBank = ${JSON.stringify(fixedQuestionBank, null, 2)}`);
+    console.log('✅ SUCCESS! Fixed questionBank copied to clipboard.');
+    console.log('Now: Open your questions.js file, SELECT ALL (Ctrl+A), and PASTE (Ctrl+V)');
+} else {
+    console.log('❌ Something went wrong with the randomization');
+}
 // Update the statistics
 const totalQuestions = 
     questionBank.security.length + 

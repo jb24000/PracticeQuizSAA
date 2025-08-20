@@ -12034,70 +12034,7 @@ const questionBank = {
       ]
 }; 
 
-// Test the fix in console WITHOUT saving yet
-function randomizeQuestionBankAnswers(questions) {
-    return questions.map(question => {
-        if (question.correct !== 0 || Array.isArray(question.correct)) {
-            return question;
-        }
-        
-        const indices = Array.from({length: question.options.length}, (_, i) => i);
-        
-        for (let i = indices.length - 1; i > 0; i--) {
-            const j = Math.floor(Math.random() * (i + 1));
-            [indices[i], indices[j]] = [indices[j], indices[i]];
-        }
-        
-        const newOptions = indices.map(i => question.options[i]);
-        const newCorrectIndex = indices.indexOf(0);
-        
-        let newExplanation = {...question.explanation};
-        if (newExplanation.whyWrong) {
-            const newWhyWrong = {};
-            Object.entries(newExplanation.whyWrong).forEach(([key, value]) => {
-                const oldIndex = parseInt(key);
-                const newIndex = indices.indexOf(oldIndex);
-                if (newIndex !== newCorrectIndex) {
-                    newWhyWrong[newIndex] = value;
-                }
-            });
-            newExplanation.whyWrong = newWhyWrong;
-        }
-        
-        return {
-            ...question,
-            options: newOptions,
-            correct: newCorrectIndex,
-            explanation: newExplanation
-        };
-    });
-}
 
-// Apply the fix temporarily in memory
-questionBank.security = randomizeQuestionBankAnswers(questionBank.security);
-questionBank.resilience = randomizeQuestionBankAnswers(questionBank.resilience);
-questionBank.performance = randomizeQuestionBankAnswers(questionBank.performance);
-questionBank.cost = randomizeQuestionBankAnswers(questionBank.cost);
-
-// Now check if it worked
-const all = [...questionBank.security, ...questionBank.resilience, ...questionBank.performance, ...questionBank.cost];
-console.log('AFTER FIX (in memory):');
-console.log(`Position 0: ${all.filter(q => q.correct === 0).length} (should be ~125)`);
-console.log(`Position 1: ${all.filter(q => q.correct === 1).length} (should be ~125)`);
-console.log(`Position 2: ${all.filter(q => q.correct === 2).length} (should be ~125)`);
-console.log(`Position 3: ${all.filter(q => q.correct === 3).length} (should be ~125)`);
-
-// If the above shows ~125 for each position, then copy the fixed version
-if (all.filter(q => q.correct === 0).length < 200) {
-    copy(`const questionBank = ${JSON.stringify(questionBank, null, 2)}`);
-    console.log('\n✅ FIXED VERSION COPIED TO CLIPBOARD!');
-    console.log('📋 Now you MUST:');
-    console.log('1. Open questions.js in your text editor');
-    console.log('2. Press Ctrl+A (Select ALL)');
-    console.log('3. Press Ctrl+V (PASTE)');
-    console.log('4. Press Ctrl+S (SAVE)');
-    console.log('5. Refresh this page');
-}
 // Update the statistics
 const totalQuestions = 
     questionBank.security.length + 

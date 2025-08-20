@@ -1,3 +1,5 @@
+console.log("TEST - FILE UPDATED");
+
 // AWS SAA-C03 Question Bank - 500 Questions
 // Domain Distribution per Official Exam Guide:
 // - Domain 1: Design Secure Architectures (30% = 150 questions)
